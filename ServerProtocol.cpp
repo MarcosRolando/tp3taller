@@ -9,7 +9,7 @@
 void ServerProtocol::_helpCommand() {
     response = "Comandos validos:\n\tAYUDA: despliega la lista"
                           "de comandos validos\n\tRENDIRSE: pierde el juego"
-                          "automaticamente\n\tXXX: Numero de 3 cifras a ser "
+                          " automaticamente\n\tXXX: Numero de 3 cifras a ser "
                           "enviado al servidor para adivinar el numero secreto";
 }
 
@@ -42,7 +42,6 @@ void ServerProtocol::_numberCommand(char* clientCommand) {
 /*Retorna la cantidad de bytes que tiene que leer el ClientHandler*/
 unsigned int ServerProtocol::processCommand(char* clientCommand) {
     unsigned int bytesToRead = 0;
-    receivingNumber = true;
     if (receivingNumber) { /*patch por si el byte coincide con las letras xd*/
         _numberCommand(clientCommand);
         receivingNumber = false;
