@@ -25,7 +25,7 @@ struct addrinfo* rp;
 void Socket::bind(struct addrinfo* addresses) {
     struct addrinfo* rp;
     int val = 1; //no entiendo esto pero el dipa lo hace
-    for (rp = addresses; rp != NULL; rp = rp->ai_next) {
+    for (rp = addresses; rp != nullptr; rp = rp->ai_next) {
         fd = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
         if (this->fd == -1)
             continue;
@@ -44,6 +44,29 @@ Socket Socket::accept() const {
     int peerFd = ::accept(fd, nullptr, nullptr);
     Socket peer(peerFd);
     return peer;
+}
+
+void Socket::send(char* message, size_t length) const {
+    size_t bytesSent = 0;
+    int s = 0;
+
+    while (bytesSent < length) {
+        s = ::send(fd, message + bytesSent, length - bytesSent, MSG_NOSIGNAL);
+        //chequear error y tirar exception
+        bytesSent += s;
+    }
+}
+
+void Socket::receive(char** message, size_t length) const {
+    size_t bytesReceived = 0;
+    int s = 0;
+
+    while (bytesReceived < length) {
+        s = recv(fd, *message + bytesReceived, length - bytesReceived, 0);
+        //chequear error y tirar exception, s == -1
+        if (s == 0) break;
+        bytesReceived += s;
+    }
 }
 
 void Socket::maxListen(int max) const {

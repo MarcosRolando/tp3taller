@@ -5,6 +5,7 @@
 #ifndef TP3TALLER_SOCKET_H
 #define TP3TALLER_SOCKET_H
 
+#include <cstdio>
 
 class Socket {
 private:
@@ -18,6 +19,8 @@ public:
     void connect(struct addrinfo* addresses);
     void bind(struct addrinfo* addresses);
     void maxListen(int max) const;
+    void send(char* message, size_t length) const;
+    void receive(char** message, size_t length) const;
     Socket accept() const;
     ~Socket();
 private:
