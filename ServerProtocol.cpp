@@ -3,6 +3,7 @@
 //
 
 #include "ServerProtocol.h"
+#include <arpa/inet.h>
 
 void ServerProtocol::_helpCommand() {
     response = "Comandos validos:\n\tAYUDA: despliega la lista"
@@ -30,6 +31,7 @@ void ServerProtocol::_setGuessResult(unsigned char firstDigit, unsigned char sec
 
 void ServerProtocol::_numberCommand(char* clientCommand) {
     unsigned short int number = *(reinterpret_cast<unsigned short int*>(clientCommand));
+    number = ntohs(number);
     unsigned char score = game.guess(number);
     unsigned char firstDigit = (score / 10) % 10;
     unsigned char secondDigit = score % 10;
@@ -39,6 +41,7 @@ void ServerProtocol::_numberCommand(char* clientCommand) {
 /*Retorna la cantidad de bytes que tiene que leer el ClientHandler*/
 unsigned int ServerProtocol::processCommand(char* clientCommand) {
     unsigned int bytesToRead = 0;
+    receivingNumber = true;
     if (receivingNumber) { /*patch por si el byte coincide con las letras xd*/
         _numberCommand(clientCommand);
         receivingNumber = false;
@@ -52,3 +55,21 @@ unsigned int ServerProtocol::processCommand(char* clientCommand) {
     }
     return bytesToRead; /*lei el mensaje entero*/
 }
+
+std::unique_ptr<char []> ServerProtocol::getResponse() {
+    unsigned int msgLength = response.length();
+    char* temporalMsg = new char[msgLength+5](); /*4 bytes del largo, 1 byte del \0*/
+    temporalMsg[msgLength + 4] = '\0';
+    msgLength = htonl(msgLength);
+    for (int i = 0; i < 4; ++i) {
+        temporalMsg[i] = *(reinterpret_cast<char*>(&msgLength) + i);
+    }
+    unsigned int i = 4;
+    for (auto & c : response) {
+        temporalMsg[i] = c;
+        ++i;
+    }
+    std::unique_ptr<char []> responseMsg(temporalMsg);
+    return responseMsg;
+}
+

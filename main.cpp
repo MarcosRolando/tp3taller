@@ -5,5 +5,6 @@ int main() {
     unsigned short int number = 208;
     char* n = reinterpret_cast<char*>(&number);
     protocol.processCommand(n);
+    std::unique_ptr<char []> message = protocol.getResponse();
     return 0;
 }

@@ -9,6 +9,7 @@
  * el cliente, comunicandose con el Game*/
 
 #include "Game.h"
+#include <memory>
 
 class ServerProtocol {
 private:
@@ -18,6 +19,7 @@ private:
 public:
     explicit ServerProtocol(unsigned short int secretNumber) : game(secretNumber), receivingNumber(false) {};
     unsigned int processCommand(char* clientCommand); /*Recibe el string del comando del cliente y lo procesa*/
+    std::unique_ptr<char []> getResponse();
 private:
     void _helpCommand();
     void _surrenderCommand();
