@@ -16,18 +16,30 @@ void ServerProtocol::surrenderCommand() {
     response = "Perdiste";
 }
 
+void ServerProtocol::setGuessResult(unsigned char firstDigit, unsigned char secondDigit) {
+    response.clear();
+    if (firstDigit == 0 && secondDigit == 0) {
+        response += "3 mal";
+    } if (firstDigit != 0) {
+        response += std::to_string(firstDigit) + " bien";
+        if (secondDigit != 0) response += ", " + std::to_string(secondDigit) + " regular";
+    } else if (secondDigit != 0) {
+        response += std::to_string(secondDigit) + " regular";
+    }
+}
+
 void ServerProtocol::numberCommand(char* clientCommand) {
     unsigned short int number = *(reinterpret_cast<unsigned short int*>(clientCommand));
     unsigned char score = game.guess(number);
-    std::string strScore = std::to_string(score);
-    for (auto & digit : strScore) {
-        std::cout << digit;
-    }
+    unsigned char firstDigit = (score / 10) % 10;
+    unsigned char secondDigit = score % 10;
+    setGuessResult(firstDigit, secondDigit);
 }
 
 /*Retorna la cantidad de bytes que tiene que leer el ClientHandler*/
 unsigned int ServerProtocol::processCommand(char* clientCommand) {
     unsigned int bytesToRead = 0;
+    receivingNumber = true;
     if (receivingNumber) { /*patch por si el byte coincide con las letras xd*/
         numberCommand(clientCommand);
         receivingNumber = false;

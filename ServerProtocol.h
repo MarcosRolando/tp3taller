@@ -22,6 +22,7 @@ private:
     void helpCommand();
     void surrenderCommand();
     void numberCommand(char* clientCommand);
+    void setGuessResult(unsigned char firstDigit, unsigned char secondDigit);
 };
 
 
