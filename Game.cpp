@@ -4,7 +4,7 @@
 
 #include "Game.h"
 
-Game::Game(unsigned short int secretNumber) : playerTries(0) {
+Game::Game(unsigned short int secretNumber) : finished(false), playerTries(0) {
     this->secretNumber = std::to_string(secretNumber);
 }
 
@@ -16,11 +16,21 @@ std::string Game::help() {
     return helpMsg;
 }
 
+void Game::updateStatus(unsigned char result) {
+    playerTries++;
+    if (result == 30) {
+        finished = true;
+        wonGames++;
+    } else if (playerTries == 10) {
+        finished = true;
+        lostGames++;
+    }
+}
+
 /*Por cada numero bien sumo 10, regular sumo 1, mal no sumo nada*/
 unsigned char Game::guess(unsigned short int number) { //con un char me alcanza
-    unsigned char result = 0;
+    unsigned char result = 0, i = 0, j;
     std::string strNumber = std::to_string(number);
-    unsigned char i = 0, j;
     for (auto & digitSN : secretNumber) {
         ++i;
         j = 0;
@@ -32,7 +42,12 @@ unsigned char Game::guess(unsigned short int number) { //con un char me alcanza
             }
         }
     }
+    updateStatus(result);
     return result;
+}
+
+bool Game::hasFinished() {
+    return finished;
 }
 
 std::string Game::surrender() {

@@ -14,6 +14,7 @@
 
 class Game {
 private:
+    bool finished;
     std::string secretNumber; /*el numero siempre sera valido, lo verifica el FileReader*/
     unsigned char playerTries; /*solo son 10 intentos asi que el char me alcanza*/
     static std::atomic<unsigned int> wonGames, lostGames; //comun a todos los juegos, puede ser que no lo haga static despues
@@ -22,6 +23,9 @@ public:
     unsigned char guess(unsigned short int number);
     std::string help();
     static std::string surrender();
+    bool hasFinished();
+private:
+    void updateStatus(unsigned char result);
 };
 
 #endif //TP3TALLER_GAME_H

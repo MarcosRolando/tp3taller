@@ -2,7 +2,11 @@
 #include <iostream>
 int main() {
     Game game(124);
-    int result = game.guess(569);
-    std::cout << result << std::endl;
+    while (!game.hasFinished()) {
+        int number;
+        std::cin >> number;
+        int result = game.guess(number);
+        std::cout << result << std::endl;
+    }
     return 0;
 }
