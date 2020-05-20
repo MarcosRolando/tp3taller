@@ -4,6 +4,7 @@
 
 #include "ServerProtocol.h"
 #include <arpa/inet.h>
+#include <cstring>
 
 void ServerProtocol::_helpCommand() {
     response = "Comandos validos:\n\tAYUDA: despliega la lista"
@@ -58,18 +59,18 @@ unsigned int ServerProtocol::processCommand(char* clientCommand) {
 
 std::unique_ptr<char []> ServerProtocol::getResponse() {
     unsigned int msgLength = response.length();
-    char* temporalMsg = new char[msgLength+5](); /*4 bytes del largo, 1 byte del \0*/
-    temporalMsg[msgLength + 4] = '\0';
+    std::unique_ptr<char []> responseMsg(new char[msgLength+5]()); /*4 bytes del largo, 1 byte del \0*/
+    memset(responseMsg.get(), 0, msgLength + 5);
+    responseMsg[msgLength + 4] = '\0';
     msgLength = htonl(msgLength);
     for (int i = 0; i < 4; ++i) {
-        temporalMsg[i] = *(reinterpret_cast<char*>(&msgLength) + i);
+        responseMsg[i] = *(reinterpret_cast<char*>(&msgLength) + i);
     }
     unsigned int i = 4;
     for (auto & c : response) {
-        temporalMsg[i] = c;
+        responseMsg[i] = c;
         ++i;
     }
-    std::unique_ptr<char []> responseMsg(temporalMsg);
     return responseMsg;
 }
 
