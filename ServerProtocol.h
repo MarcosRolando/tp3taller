@@ -14,8 +14,9 @@ class ServerProtocol {
 private:
     Game game;
     std::string response;
+    bool receivingNumber;
 public:
-    explicit ServerProtocol(unsigned short int secretNumber) : game(secretNumber) {};
+    explicit ServerProtocol(unsigned short int secretNumber) : game(secretNumber), receivingNumber(false) {};
     unsigned int processCommand(char* clientCommand); /*Recibe el string del comando del cliente y lo procesa*/
 private:
     void helpCommand();

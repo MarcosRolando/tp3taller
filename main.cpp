@@ -1,12 +1,9 @@
 #include "Game.h"
-#include <iostream>
+#include "ServerProtocol.h"
 int main() {
-    Game game(124);
-    while (!game.hasFinished()) {
-        int number;
-        std::cin >> number;
-        int result = game.guess(number);
-        std::cout << result << std::endl;
-    }
+    ServerProtocol protocol(124);
+    unsigned short int number = 104;
+    char* n = reinterpret_cast<char*>(&number);
+    protocol.processCommand(n);
     return 0;
 }
