@@ -10,16 +10,18 @@
  * eficiencia de performance evitando compartir recursos*/
 
 #include <string>
+#include <atomic>
 
 class Game {
 private:
-    unsigned short int secretNumber; /*el numero siempre sera valido, lo verifica el FileReader*/
+    std::string secretNumber; /*el numero siempre sera valido, lo verifica el FileReader*/
     unsigned char playerTries; /*solo son 10 intentos asi que el char me alcanza*/
-    static unsigned int wonGames, lostGames; //comun a todos los juegos, puede ser que no lo haga static despues, ver bien, PROTEGER DE RC!
+    static std::atomic<unsigned int> wonGames, lostGames; //comun a todos los juegos, puede ser que no lo haga static despues
 public:
-    explicit Game(unsigned int secretNumber) : secretNumber(secretNumber),
-                                                playerTries(0) {};
+    explicit Game(unsigned short int secretNumber);
+    unsigned char guess(unsigned short int number);
     std::string help();
+    static std::string surrender();
 };
 
 #endif //TP3TALLER_GAME_H

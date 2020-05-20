@@ -8,7 +8,7 @@
 /*Esta clase sera la que se comunique con el cliente, es decir, el servidor
  * cuando acepta a un cliente crea un nuevo ClientHandler (un estilo de
  * subservidor) y lo dispara en un nuevo thread. Esta clase guarda una instancia
- * independiente del Juego de Adivinar el Numero*/
+ * del protocolo, que guarda una instancia independiente del Juego de Adivinar el Numero*/
 
 class ClientHandler {
 };

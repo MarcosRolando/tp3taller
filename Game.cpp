@@ -4,6 +4,10 @@
 
 #include "Game.h"
 
+Game::Game(unsigned short int secretNumber) : playerTries(0) {
+    this->secretNumber = std::to_string(secretNumber);
+}
+
 std::string Game::help() {
     std::string helpMsg = "Comandos validos:\n\tAYUDA: despliega la lista" /*Falta poner tildes*/
                           "de comandos validos\n\tRENDIRSE: pierde el juego"
@@ -12,5 +16,31 @@ std::string Game::help() {
     return helpMsg;
 }
 
-unsigned int Game::wonGames = 0; /*Asi se inicializan las variables estaticas*/
-unsigned int Game::lostGames = 0; /*Segun la documentacion esto se hace antes de llamar al main por lo tanto es THREAD SAFE*/
+/*Por cada numero bien sumo 10, regular sumo 1, mal no sumo nada*/
+unsigned char Game::guess(unsigned short int number) { //con un char me alcanza
+    unsigned char result = 0;
+    std::string strNumber = std::to_string(number);
+    unsigned char i = 0, j;
+    for (auto & digitSN : secretNumber) {
+        ++i;
+        j = 0;
+        for (auto & digitN : strNumber) {
+            ++j;
+            if (digitN == digitSN) {
+                if (i == j) result += 10;
+                else result++;
+            }
+        }
+    }
+    return result;
+}
+
+std::string Game::surrender() {
+    lostGames++;
+    return "Perdiste";
+}
+
+std::atomic<unsigned int> Game::wonGames{0}; /*Asi se inicializan las variables estaticas*/
+std::atomic<unsigned int> Game::lostGames{0};
+
+/*Segun la documentacion esto se hace antes de llamar al main por lo tanto es THREAD SAFE*/
