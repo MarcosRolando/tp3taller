@@ -21,9 +21,8 @@ private:
 public:
     explicit Game(unsigned short int secretNumber);
     unsigned char guess(unsigned short int number);
-    std::string help();
-    static std::string surrender();
-    bool hasFinished();
+    static void surrender();
+    bool hasFinished() const;
 private:
     void updateStatus(unsigned char result);
 };

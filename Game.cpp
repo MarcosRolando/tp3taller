@@ -7,15 +7,15 @@
 Game::Game(unsigned short int secretNumber) : finished(false), playerTries(0) {
     this->secretNumber = std::to_string(secretNumber);
 }
-
+/*
 std::string Game::help() {
-    std::string helpMsg = "Comandos validos:\n\tAYUDA: despliega la lista" /*Falta poner tildes*/
-                          "de comandos validos\n\tRENDIRSE: pierde el juego"
-                          "automaticamente\n\tXXX: Numero de 3 cifras a ser "
-                          "enviado al servidor para adivinar el numero secreto";
-    return helpMsg;
+    std::string helpMsg = "Comandos validos:\n\tAYUDA: despliega la lista" Falta poner tildes
+                          //"de comandos validos\n\tRENDIRSE: pierde el juego"
+                          //"automaticamente\n\tXXX: Numero de 3 cifras a ser "
+                          //"enviado al servidor para adivinar el numero secreto";
+    //return helpMsg;
 }
-
+*//*ESTO VA EN EL PROTOCOLO, NO QUIERO QUE EL JUEGO GENERE NADA DE TEXTO*/
 void Game::updateStatus(unsigned char result) {
     playerTries++;
     if (result == 30) {
@@ -46,13 +46,12 @@ unsigned char Game::guess(unsigned short int number) { //con un char me alcanza
     return result;
 }
 
-bool Game::hasFinished() {
+bool Game::hasFinished() const {
     return finished;
 }
 
-std::string Game::surrender() {
+void Game::surrender() {
     lostGames++;
-    return "Perdiste";
 }
 
 std::atomic<unsigned int> Game::wonGames{0}; /*Asi se inicializan las variables estaticas*/
