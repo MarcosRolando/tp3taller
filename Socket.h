@@ -13,7 +13,7 @@ public:
     Socket() : fd(-1) {}; /*sobrecargo el constructor*/
     Socket(const Socket&) = delete;
     Socket operator=(const Socket&) = delete;
-    Socket& operator=(Socket&&);
+    Socket& operator=(Socket&&) noexcept;
     Socket(Socket&& srcSocket) noexcept;
     void connect(struct addrinfo* addresses);
     void bind(struct addrinfo* addresses);

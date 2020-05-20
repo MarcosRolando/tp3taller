@@ -63,5 +63,5 @@ Socket::Socket(Socket&& srcSocket) noexcept {
 Socket& Socket::operator=(Socket&& srcSocket) noexcept {
     fd = srcSocket.fd;
     srcSocket.fd = -1; /*le robo el fd y le dejo uno inutil*/
-    return srcSocket;
+    return *this;
 }
