@@ -24,7 +24,7 @@ public:
     static void surrender();
     bool hasFinished() const;
 private:
-    void updateStatus(unsigned char result);
+    void _updateStatus(unsigned char result);
 };
 
 #endif //TP3TALLER_GAME_H

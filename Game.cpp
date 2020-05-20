@@ -8,7 +8,7 @@ Game::Game(unsigned short int secretNumber) : finished(false), playerTries(0) {
     this->secretNumber = std::to_string(secretNumber);
 }
 
-void Game::updateStatus(unsigned char result) {
+void Game::_updateStatus(unsigned char result) {
     playerTries++;
     if (result == 30) {
         finished = true;
@@ -34,7 +34,7 @@ unsigned char Game::guess(unsigned short int number) { //con un char me alcanza
             }
         }
     }
-    updateStatus(result);
+    _updateStatus(result);
     return result;
 }
 

@@ -19,10 +19,10 @@ public:
     explicit ServerProtocol(unsigned short int secretNumber) : game(secretNumber), receivingNumber(false) {};
     unsigned int processCommand(char* clientCommand); /*Recibe el string del comando del cliente y lo procesa*/
 private:
-    void helpCommand();
-    void surrenderCommand();
-    void numberCommand(char* clientCommand);
-    void setGuessResult(unsigned char firstDigit, unsigned char secondDigit);
+    void _helpCommand();
+    void _surrenderCommand();
+    void _numberCommand(char* clientCommand);
+    void _setGuessResult(unsigned char firstDigit, unsigned char secondDigit);
 };
 
 

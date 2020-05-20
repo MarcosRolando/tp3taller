@@ -3,20 +3,20 @@
 //
 
 #include "ServerProtocol.h"
-#include <iostream>
-void ServerProtocol::helpCommand() {
+
+void ServerProtocol::_helpCommand() {
     response = "Comandos validos:\n\tAYUDA: despliega la lista"
                           "de comandos validos\n\tRENDIRSE: pierde el juego"
                           "automaticamente\n\tXXX: Numero de 3 cifras a ser "
                           "enviado al servidor para adivinar el numero secreto";
 }
 
-void ServerProtocol::surrenderCommand() {
+void ServerProtocol::_surrenderCommand() {
     Game::surrender();
     response = "Perdiste";
 }
 
-void ServerProtocol::setGuessResult(unsigned char firstDigit, unsigned char secondDigit) {
+void ServerProtocol::_setGuessResult(unsigned char firstDigit, unsigned char secondDigit) {
     response.clear();
     if (firstDigit == 0 && secondDigit == 0) {
         response += "3 mal";
@@ -28,25 +28,24 @@ void ServerProtocol::setGuessResult(unsigned char firstDigit, unsigned char seco
     }
 }
 
-void ServerProtocol::numberCommand(char* clientCommand) {
+void ServerProtocol::_numberCommand(char* clientCommand) {
     unsigned short int number = *(reinterpret_cast<unsigned short int*>(clientCommand));
     unsigned char score = game.guess(number);
     unsigned char firstDigit = (score / 10) % 10;
     unsigned char secondDigit = score % 10;
-    setGuessResult(firstDigit, secondDigit);
+    _setGuessResult(firstDigit, secondDigit);
 }
 
 /*Retorna la cantidad de bytes que tiene que leer el ClientHandler*/
 unsigned int ServerProtocol::processCommand(char* clientCommand) {
     unsigned int bytesToRead = 0;
-    receivingNumber = true;
     if (receivingNumber) { /*patch por si el byte coincide con las letras xd*/
-        numberCommand(clientCommand);
+        _numberCommand(clientCommand);
         receivingNumber = false;
     } else if (*clientCommand == 'h') {
-        helpCommand();
+        _helpCommand();
     } else if (*clientCommand == 's') {
-        surrenderCommand();
+        _surrenderCommand();
     } else if (*clientCommand == 'n') {
         bytesToRead = 2; /*tiene que leer 2 bytes*/
         receivingNumber = true;
