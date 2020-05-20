@@ -10,7 +10,11 @@ class Socket {
 private:
     int fd; /*file descriptor*/
 public:
-    Socket() = default; /*sobrecargo el constructor*/
+    Socket() : fd(-1) {}; /*sobrecargo el constructor*/
+    Socket(const Socket&) = delete;
+    Socket operator=(const Socket&) = delete;
+    Socket& operator=(Socket&&);
+    Socket(Socket&& srcSocket) noexcept;
     void connect(struct addrinfo* addresses);
     void bind(struct addrinfo* addresses);
     void maxListen(int max) const;

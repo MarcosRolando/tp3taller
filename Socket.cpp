@@ -5,6 +5,7 @@
 #include "Socket.h"
 #include <netdb.h>
 #include <unistd.h>
+#include <algorithm>
 
 void Socket::connect(struct addrinfo* addresses) {
 struct addrinfo* rp;
@@ -52,4 +53,15 @@ void Socket::maxListen(int max) const {
 Socket::~Socket() {
     shutdown(fd, SHUT_RDWR);
     close(fd);
+}
+
+Socket::Socket(Socket&& srcSocket) noexcept {
+    fd = srcSocket.fd;
+    srcSocket.fd = -1; /*le robo el fd y le dejo uno inutil*/
+}
+
+Socket& Socket::operator=(Socket&& srcSocket) noexcept {
+    fd = srcSocket.fd;
+    srcSocket.fd = -1; /*le robo el fd y le dejo uno inutil*/
+    return srcSocket;
 }
