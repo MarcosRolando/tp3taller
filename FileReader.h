@@ -13,8 +13,10 @@ private:
     std::string fileName;
     std::ifstream file;
     std::vector<unsigned short int> numbers;
+    std::vector<unsigned short int>::iterator currentNumber;
 public:
     explicit FileReader(std::string&& fileName);
+    unsigned short int getNextNumber();
 private:
     void _readNumbers();
     void _verifyRepeatedDigits(std::string&& strNumber);

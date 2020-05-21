@@ -10,6 +10,7 @@ FileReader::FileReader(std::string&& fileName)  :
     if (!this->file.is_open()) throw TPException("El archivo" +
     fileName + "no se encuentra en el directorio del ejecutable o no existe");
     _readNumbers();
+    currentNumber = numbers.begin();
 }
 
 void FileReader::_verifyRepeatedDigits(std::string&& strNumber) {
@@ -30,7 +31,7 @@ void FileReader::_readNumbers() {
         } catch (std::invalid_argument& e) {
             throw TPException("El archivo debe contener numeros unicamente");
         }
-        if (!file.eof()) _addNumber(number);
+        _addNumber(number);
     }
 }
 
@@ -38,5 +39,12 @@ void FileReader::_addNumber(unsigned int short number) {
     if ( (number < 100) || (number > 999) )
         throw TPException("Error: archivo con números fuera de rango");
     numbers.push_back(number);
+}
+
+unsigned short int FileReader::getNextNumber() {
+    if (currentNumber == numbers.end()) currentNumber = numbers.begin();
+    unsigned short int n = *currentNumber;
+    currentNumber++;
+    return n;
 }
 
