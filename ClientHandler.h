@@ -10,7 +10,18 @@
  * subservidor) y lo dispara en un nuevo thread. Esta clase guarda una instancia
  * del protocolo, que guarda una instancia independiente del Juego de Adivinar el Numero*/
 
-class ClientHandler {
+#include "ServerProtocol.h"
+#include "Socket.h"
+#include "Thread.h"
+
+class ClientHandler : public Thread {
+private:
+    Socket socket;
+    ServerProtocol protocol;
+public:
+    ClientHandler(Socket&& socket, unsigned int short secretNumber) :
+                        socket(std::move(socket)), protocol(secretNumber) {};
+    void run() override;
 };
 
 
