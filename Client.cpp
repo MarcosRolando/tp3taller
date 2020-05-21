@@ -10,7 +10,7 @@
 #include <iostream>
 
 struct addrinfo* Client::_getAddresses() {
-    struct addrinfo hints, *result;
+    struct addrinfo hints{}, *result;
     int s; //flag por si hubo un error
     memset(&hints, 0, sizeof(struct addrinfo));
     hints.ai_family = AF_INET;       /* IPv4 (or AF_INET6 for IPv6)     */
@@ -21,19 +21,29 @@ struct addrinfo* Client::_getAddresses() {
     return result;
 }
 
+void Client::_send() {
+    std::string command = User::getInput();
+    unsigned int bufferLength;
+    std::unique_ptr<char[]> buffer = ClientProtocol::translateCommand(
+                                            std::move(command), bufferLength);
+    socket.send(buffer.get(), bufferLength);
+}
+
+void Client::_receive() {
+    unsigned int bufferLength;
+    while(!protocol.finishedReceiving()) {
+        std::unique_ptr<char[]> response = protocol.responseBuffer(bufferLength);
+    }
+}
+
 void Client::_processConnection() {
     bool finished = false;
-    std::string command;
-    unsigned int bufferLength;
     while (!finished) {
-        command = User::getInput();
         try {
-            std::unique_ptr<char[]> buffer = ClientProtocol::translateCommand(
-                                        std::move(command), bufferLength);
-            socket.send(buffer.get(), bufferLength);
-            /*aca tengo que recibir el mensaje del servidor*/
+            _send();
+            _receive();
         } catch (TPException& e) {
-            std::cout << e.what() << std::endl; /*esto es medio sidoso, ver bien donde lo manejo*/
+            std::cout << e.what() << std::endl; /*esto es medio sidoso, lo ideal seria meterlo en user el printeo ver bien donde lo manejo*/
         }
     }
 }

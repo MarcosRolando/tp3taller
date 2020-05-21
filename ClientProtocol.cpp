@@ -47,3 +47,21 @@ std::unique_ptr<char []> ClientProtocol::translateCommand(std::string&& command,
         }
     }
 }
+
+bool ClientProtocol::finishedReceiving() const {
+    return readResponse;
+}
+
+std::unique_ptr<char[]> ClientProtocol::responseBuffer(unsigned int& bufferLength) {
+    if (!readResponse) { /*esto es muy rancio, cambiarlo*/
+        bufferLength = 4;
+        std::unique_ptr<char[]> buffer(new char[bufferLength]());
+        return buffer;
+    }  else {
+        bufferLength =
+        std::unique_ptr<char[]> buffer(new char[4]());
+        readResponse = true;
+        return buffer;
+    }
+}
+

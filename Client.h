@@ -13,10 +13,13 @@ class Client {
 private:
     std::string host, port;
     Socket socket;
+    ClientProtocol protocol;
 public:
     Client(std::string&& host, std::string&& port) : host(host), port(port) {};
     void connect();
 private:
+    void _send();
+    void _receive();
     struct addrinfo* _getAddresses();
     void _processConnection();
 };

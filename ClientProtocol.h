@@ -12,9 +12,14 @@
 #include <memory>
 
 class ClientProtocol {
+private:
+    bool readResponse;
 public:
+    ClientProtocol() : readResponse(false) {};
     static std::unique_ptr<char[]> translateCommand(std::string&& command,
                                                     unsigned int& bufferSize); /*recibe el string y lo adapta al protocolo*/
+    bool finishedReceiving() const;
+    std::unique_ptr<char[]> responseBuffer(unsigned int& bufferLength);
 private:
     static std::unique_ptr<char[]> _helpCommand(unsigned int& bufferSize);
     static std::unique_ptr<char[]> _surrenderCommand(unsigned int& bufferSize);
