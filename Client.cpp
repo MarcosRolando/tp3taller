@@ -5,6 +5,9 @@
 #include <netdb.h>
 #include "Client.h"
 #include <cstring>
+#include "User.h"
+#include "TPException.h"
+#include <iostream>
 
 struct addrinfo* Client::_getAddresses() {
     struct addrinfo hints, *result;
@@ -19,11 +22,24 @@ struct addrinfo* Client::_getAddresses() {
 }
 
 void Client::_processConnection() {
-
+    bool finished = false;
+    std::string command;
+    unsigned int bufferLength;
+    while (!finished) {
+        command = User::getInput();
+        try {
+            std::unique_ptr<char[]> buffer = ClientProtocol::translateCommand(
+                                        std::move(command), bufferLength);
+            socket.send(buffer.get(), bufferLength);
+            /*aca tengo que recibir el mensaje del servidor*/
+        } catch (TPException& e) {
+            std::cout << e.what() << std::endl; /*esto es medio sidoso, ver bien donde lo manejo*/
+        }
+    }
 }
 
 void Client::connect() {
-    struct addrinfo* addresses = _getAddresses(this);
+    struct addrinfo* addresses = _getAddresses();
     socket.connect(addresses);
     freeaddrinfo(addresses);
     _processConnection();

@@ -1,7 +1,6 @@
 #include "Server.h"
 #include "FileReader.h"
 #include "TPException.h"
-#include <iostream>
 #include "ClientProtocol.h"
 int main() {
     /*
