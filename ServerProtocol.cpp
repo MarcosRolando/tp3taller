@@ -32,7 +32,7 @@ void ServerProtocol::_setGuessResult(unsigned char firstDigit, unsigned char sec
 }
 
 void ServerProtocol::_numberCommand(const char* clientCommand) {
-    unsigned short int number = *(reinterpret_cast<const unsigned short int*>(clientCommand));
+    uint16_t number = *(reinterpret_cast<const uint16_t *>(clientCommand));
     number = ntohs(number);
     try {
         unsigned char score = game.guess(number);
@@ -69,15 +69,15 @@ unsigned int ServerProtocol::processCommand(const char* clientCommand) {
 
 std::unique_ptr<char []> ServerProtocol::getResponse(unsigned int& bufferSize) {
     response += "\n";
-    unsigned int msgLength = response.length();
+    uint32_t msgLength = response.length();
     bufferSize = msgLength + 4;
-    std::unique_ptr<char []> responseMsg(new char[bufferSize]()); /*4 bytes del largo*/
+    std::unique_ptr<char[]> responseMsg(new char[bufferSize]()); /*4 bytes del largo*/
     memset(responseMsg.get(), 0, bufferSize);
     msgLength = htonl(msgLength);
     for (int i = 0; i < 4; ++i) {
         responseMsg[i] = *(reinterpret_cast<char*>(&msgLength) + i);
     }
-    unsigned int i = 4;
+    uint32_t i = 4;
     for (auto & c : response) {
         responseMsg[i] = c;
         ++i;

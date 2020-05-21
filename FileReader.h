@@ -19,7 +19,7 @@ public:
     unsigned short int getNextNumber();
 private:
     void _readNumbers();
-    void _verifyRepeatedDigits(std::string&& strNumber);
+    static void _verifyRepeatedDigits(std::string&& strNumber);
     void _addNumber(unsigned int short number);
 };
 
