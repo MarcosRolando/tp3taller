@@ -21,7 +21,7 @@ private:
 public:
     explicit Game(unsigned short int secretNumber);
     unsigned char guess(unsigned short int number);
-    static void surrender();
+    void surrender();
     bool hasFinished() const;
 private:
     void _updateStatus(unsigned char result);

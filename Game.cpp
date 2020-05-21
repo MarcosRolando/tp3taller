@@ -53,6 +53,7 @@ bool Game::hasFinished() const {
 
 void Game::surrender() {
     lostGames++;
+    finished = true;
 }
 
 std::atomic<unsigned int> Game::wonGames{0}; /*Asi se inicializan las variables estaticas*/

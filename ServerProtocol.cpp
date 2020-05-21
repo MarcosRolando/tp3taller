@@ -15,7 +15,7 @@ void ServerProtocol::_helpCommand() {
 }
 
 void ServerProtocol::_surrenderCommand() {
-    Game::surrender();
+    game.surrender();
     response = "Perdiste";
 }
 

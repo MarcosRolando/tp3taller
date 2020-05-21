@@ -14,8 +14,8 @@ private:
     Socket socket;
 public:
     explicit Server(std::string&& port) : port(std::move(port)) {};
+    void connect();
 private:
-    void _connect();
     struct addrinfo* _getAddresses();
 };
 
