@@ -5,7 +5,6 @@
 #include "Socket.h"
 #include <netdb.h>
 #include <unistd.h>
-#include <algorithm>
 
 void Socket::connect(struct addrinfo* addresses) {
 struct addrinfo* rp;
@@ -57,12 +56,12 @@ void Socket::send(char* message, size_t length) const {
     }
 }
 
-void Socket::receive(char** message, size_t length) const {
+void Socket::receive(char* message, size_t length) const {
     size_t bytesReceived = 0;
     int s = 0;
 
     while (bytesReceived < length) {
-        s = recv(fd, *message + bytesReceived, length - bytesReceived, 0);
+        s = recv(fd, message + bytesReceived, length - bytesReceived, 0);
         //chequear error y tirar exception, s == -1
         if (s == 0) break;
         bytesReceived += s;
@@ -74,8 +73,11 @@ void Socket::maxListen(int max) const {
 }
 
 Socket::~Socket() {
-    shutdown(fd, SHUT_RDWR);
-    close(fd);
+    if (fd != -1) {
+        shutdown(fd, SHUT_RDWR);
+        close(fd);
+        fd = -1;
+    }
 }
 
 Socket::Socket(Socket&& srcSocket) noexcept {

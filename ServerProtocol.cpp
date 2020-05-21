@@ -51,7 +51,7 @@ void ServerProtocol::_numberCommand(const char* clientCommand) {
 }
 
 /*Retorna la cantidad de bytes que tiene que leer el ClientHandler*/
-unsigned int ServerProtocol::processCommand(char* clientCommand) {
+unsigned int ServerProtocol::processCommand(const char* clientCommand) {
     unsigned int bytesToRead = 0;
     if (receivingNumber) { /*patch por si el byte coincide con las letras xd*/
         _numberCommand(clientCommand);
@@ -67,11 +67,12 @@ unsigned int ServerProtocol::processCommand(char* clientCommand) {
     return bytesToRead; /*lei el mensaje entero*/
 }
 
-std::unique_ptr<char []> ServerProtocol::getResponse() {
+std::unique_ptr<char []> ServerProtocol::getResponse(unsigned int& bufferSize) {
     unsigned int msgLength = response.length();
-    std::unique_ptr<char []> responseMsg(new char[msgLength+5]()); /*4 bytes del largo, 1 byte del \0*/
-    memset(responseMsg.get(), 0, msgLength + 5);
-    responseMsg[msgLength + 4] = '\0';
+    bufferSize = msgLength + 5;
+    std::unique_ptr<char []> responseMsg(new char[bufferSize]()); /*4 bytes del largo, 1 byte del \0*/
+    memset(responseMsg.get(), 0, bufferSize);
+    responseMsg[bufferSize - 1] = '\0';
     msgLength = htonl(msgLength);
     for (int i = 0; i < 4; ++i) {
         responseMsg[i] = *(reinterpret_cast<char*>(&msgLength) + i);

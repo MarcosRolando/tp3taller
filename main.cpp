@@ -9,6 +9,7 @@ int main() {
     char msg[1] = {'h'};
     protocol.processCommand(msg);
      */
-    std::unique_ptr<char []> message = protocol.getResponse();
+    unsigned int buffSize;
+    std::unique_ptr<char []> message = protocol.getResponse(buffSize);
     return 0;
 }

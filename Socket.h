@@ -20,7 +20,7 @@ public:
     void bind(struct addrinfo* addresses);
     void maxListen(int max) const;
     void send(char* message, size_t length) const;
-    void receive(char** message, size_t length) const;
+    void receive(char* message, size_t length) const;
     Socket accept() const;
     ~Socket();
 private:
