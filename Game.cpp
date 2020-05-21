@@ -37,10 +37,13 @@ void Game::_compareNumbers(unsigned char& result, std::string&& number) {
 
 /*Por cada numero bien sumo 10, regular sumo 1, mal no sumo nada*/
 unsigned char Game::guess(unsigned short int number) { //con un char me alcanza
-    if ( (number < 100) || (number > 999) ) throw TPException();
+    if ( (number < 100) || (number > 999) )
+        throw TPException("Rango invalido");
     std::string strNumber = std::to_string(number);
-    if (strNumber.back() == strNumber.front()) throw TPException(); /*comparo los extremos*/
-    if (strNumber.back() == strNumber[1]) throw TPException(); /*comparo con el del medio*/
+    if (strNumber.back() == strNumber.front())
+        throw TPException("Digitos repetidos"); /*comparo los extremos*/
+    if (strNumber.back() == strNumber[1])
+        throw TPException("Digitos repetidos"); /*comparo con el del medio*/
     unsigned char result = 0;
     _compareNumbers(result, std::move(strNumber));
     _updateStatus(result);
