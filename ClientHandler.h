@@ -23,6 +23,7 @@ public:
     ClientHandler(Socket&& socket, unsigned int short secretNumber) :
         socket(std::move(socket)), protocol(secretNumber), finished(false) {};
     void run() override;
+    void forceFinish();
 };
 
 

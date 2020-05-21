@@ -5,6 +5,7 @@
 #include "Socket.h"
 #include <netdb.h>
 #include <unistd.h>
+#include <exception>
 
 void Socket::connect(struct addrinfo* addresses) {
 struct addrinfo* rp;
@@ -16,7 +17,7 @@ struct addrinfo* rp;
         if (::connect(this->fd , rp->ai_addr, rp->ai_addrlen) != -1)
             break;                  /* Success */
 
-        close(this->fd);
+        ::close(this->fd);
     }
     //chequear por error y tirar exception
 }
@@ -34,7 +35,7 @@ void Socket::bind(struct addrinfo* addresses) {
         if (::bind(this->fd, rp->ai_addr, rp->ai_addrlen) == 0)
             break;                  /* Success */
 
-        close(this->fd);
+        ::close(this->fd);
     }
     //chequear por error y tirar exception
 }
@@ -51,7 +52,7 @@ void Socket::send(char* message, size_t length) const {
 
     while (bytesSent < length) {
         s = ::send(fd, message + bytesSent, length - bytesSent, MSG_NOSIGNAL);
-        //chequear error y tirar exception
+        if (s == -1) throw std::exception();
         bytesSent += s;
     }
 }
@@ -62,7 +63,7 @@ void Socket::receive(char* message, size_t length) const {
 
     while (bytesReceived < length) {
         s = recv(fd, message + bytesReceived, length - bytesReceived, 0);
-        //chequear error y tirar exception, s == -1
+        if (s == -1) throw std::exception();
         if (s == 0) break;
         bytesReceived += s;
     }
@@ -73,11 +74,7 @@ void Socket::maxListen(int max) const {
 }
 
 Socket::~Socket() {
-    if (fd != -1) {
-        shutdown(fd, SHUT_RDWR);
-        close(fd);
-        fd = -1;
-    }
+    close();
 }
 
 Socket::Socket(Socket&& srcSocket) noexcept {
@@ -89,4 +86,12 @@ Socket& Socket::operator=(Socket&& srcSocket) noexcept {
     fd = srcSocket.fd;
     srcSocket.fd = -1; /*le robo el fd y le dejo uno inutil*/
     return *this;
+}
+
+void Socket::close() {
+    if (fd != -1) {
+        shutdown(fd, SHUT_RDWR);
+        ::close(fd);
+        fd = -1;
+    }
 }

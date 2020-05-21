@@ -85,3 +85,7 @@ std::unique_ptr<char []> ServerProtocol::getResponse(unsigned int& bufferSize) {
     return responseMsg;
 }
 
+bool ServerProtocol::hasFinished() {
+    return game.hasFinished();
+}
+
