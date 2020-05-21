@@ -16,17 +16,17 @@ void ServerProtocol::_helpCommand() {
 
 void ServerProtocol::_surrenderCommand() {
     game.surrender();
-    response = "Perdiste";
+    response = "Perdiste\n";
 }
 
 void ServerProtocol::_setGuessResult(unsigned char firstDigit, unsigned char secondDigit) {
     response.clear();
     if (firstDigit == 0 && secondDigit == 0) {
         response += "3 mal";
-    } if (firstDigit != 0) {
+    } else if (firstDigit != 0) {
         response += std::to_string(firstDigit) + " bien";
         if (secondDigit != 0) response += ", " + std::to_string(secondDigit) + " regular";
-    } else if (secondDigit != 0) {
+    } else {
         response += std::to_string(secondDigit) + " regular";
     }
 }
@@ -68,11 +68,11 @@ unsigned int ServerProtocol::processCommand(const char* clientCommand) {
 }
 
 std::unique_ptr<char []> ServerProtocol::getResponse(unsigned int& bufferSize) {
+    response += "\n";
     unsigned int msgLength = response.length();
-    bufferSize = msgLength + 5;
-    std::unique_ptr<char []> responseMsg(new char[bufferSize]()); /*4 bytes del largo, 1 byte del \0*/
+    bufferSize = msgLength + 4;
+    std::unique_ptr<char []> responseMsg(new char[bufferSize]()); /*4 bytes del largo*/
     memset(responseMsg.get(), 0, bufferSize);
-    responseMsg[bufferSize - 1] = '\0';
     msgLength = htonl(msgLength);
     for (int i = 0; i < 4; ++i) {
         responseMsg[i] = *(reinterpret_cast<char*>(&msgLength) + i);
