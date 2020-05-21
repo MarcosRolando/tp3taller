@@ -25,6 +25,7 @@ public:
     bool hasFinished() const;
 private:
     void _updateStatus(unsigned char result);
+    void _compareNumbers(unsigned char& result, std::string&& number);
 };
 
 #endif //TP3TALLER_GAME_H

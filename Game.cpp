@@ -3,6 +3,7 @@
 //
 
 #include "Game.h"
+#include "TPException.h"
 
 Game::Game(unsigned short int secretNumber) : finished(false), playerTries(0) {
     this->secretNumber = std::to_string(secretNumber);
@@ -19,14 +20,12 @@ void Game::_updateStatus(unsigned char result) {
     }
 }
 
-/*Por cada numero bien sumo 10, regular sumo 1, mal no sumo nada*/
-unsigned char Game::guess(unsigned short int number) { //con un char me alcanza
-    unsigned char result = 0, i = 0, j;
-    std::string strNumber = std::to_string(number);
+void Game::_compareNumbers(unsigned char& result, std::string&& number) {
+    unsigned char i = 0, j;
     for (auto & digitSN : secretNumber) {
         ++i;
         j = 0;
-        for (auto & digitN : strNumber) {
+        for (auto & digitN : number) {
             ++j;
             if (digitN == digitSN) {
                 if (i == j) result += 10;
@@ -34,6 +33,16 @@ unsigned char Game::guess(unsigned short int number) { //con un char me alcanza
             }
         }
     }
+}
+
+/*Por cada numero bien sumo 10, regular sumo 1, mal no sumo nada*/
+unsigned char Game::guess(unsigned short int number) { //con un char me alcanza
+    if ( (number < 100) || (number > 999) ) throw TPException();
+    std::string strNumber = std::to_string(number);
+    if (strNumber.back() == strNumber.front()) throw TPException(); /*comparo los extremos*/
+    if (strNumber.back() == strNumber[1]) throw TPException(); /*comparo con el del medio*/
+    unsigned char result = 0;
+    _compareNumbers(result, std::move(strNumber));
     _updateStatus(result);
     return result;
 }

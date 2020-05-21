@@ -23,7 +23,7 @@ public:
 private:
     void _helpCommand();
     void _surrenderCommand();
-    void _numberCommand(char* clientCommand);
+    void _numberCommand(const char* clientCommand);
     void _setGuessResult(unsigned char firstDigit, unsigned char secondDigit);
 };
 

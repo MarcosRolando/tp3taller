@@ -5,6 +5,7 @@
 #include "ServerProtocol.h"
 #include <arpa/inet.h>
 #include <cstring>
+#include "TPException.h"
 
 void ServerProtocol::_helpCommand() {
     response = "Comandos validos:\n\tAYUDA: despliega la lista"
@@ -30,13 +31,23 @@ void ServerProtocol::_setGuessResult(unsigned char firstDigit, unsigned char sec
     }
 }
 
-void ServerProtocol::_numberCommand(char* clientCommand) {
-    unsigned short int number = *(reinterpret_cast<unsigned short int*>(clientCommand));
+void ServerProtocol::_numberCommand(const char* clientCommand) {
+    unsigned short int number = *(reinterpret_cast<const unsigned short int*>(clientCommand));
     number = ntohs(number);
-    unsigned char score = game.guess(number);
-    unsigned char firstDigit = (score / 10) % 10;
-    unsigned char secondDigit = score % 10;
-    _setGuessResult(firstDigit, secondDigit);
+    try {
+        unsigned char score = game.guess(number);
+        if (game.hasFinished()) {
+            if (score == 30) response = "Ganaste";
+            else response = "Perdiste";
+        } else {
+            unsigned char firstDigit = (score / 10) % 10;
+            unsigned char secondDigit = score % 10;
+            _setGuessResult(firstDigit, secondDigit);
+        }
+    } catch (TPException& e) {
+        response = "Número inválido. Debe ser de 3 cifras no repetidas";
+    }
+
 }
 
 /*Retorna la cantidad de bytes que tiene que leer el ClientHandler*/
