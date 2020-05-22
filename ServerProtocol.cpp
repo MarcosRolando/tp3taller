@@ -16,7 +16,7 @@ void ServerProtocol::_helpCommand() {
 
 void ServerProtocol::_surrenderCommand() {
     game.surrender();
-    response = "Perdiste\n";
+    response = "Perdiste";
 }
 
 void ServerProtocol::_setGuessResult(unsigned char firstDigit, unsigned char secondDigit) {
