@@ -14,8 +14,9 @@ private:
     std::string host, port;
     Socket socket;
     ClientProtocol protocol;
+    bool finished;
 public:
-    Client(std::string&& host, std::string&& port) : host(host), port(port) {};
+    Client(std::string&& host, std::string&& port) : host(host), port(port), finished(false) {};
     void connect();
 private:
     void _send();

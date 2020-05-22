@@ -13,13 +13,15 @@
 
 class ClientProtocol {
 private:
-    bool readResponse;
+    bool readLength, readResponse;
+    uint32_t responseLength;
 public:
-    ClientProtocol() : readResponse(false) {};
+    ClientProtocol() : readLength(false), readResponse(false), responseLength(0) {};
     static std::unique_ptr<char[]> translateCommand(std::string&& command,
                                                     unsigned int& bufferSize); /*recibe el string y lo adapta al protocolo*/
     bool finishedReceiving() const;
     std::unique_ptr<char[]> responseBuffer(unsigned int& bufferLength);
+    void processResponse(std::unique_ptr<char[]>& response);
 private:
     static std::unique_ptr<char[]> _helpCommand(unsigned int& bufferSize);
     static std::unique_ptr<char[]> _surrenderCommand(unsigned int& bufferSize);

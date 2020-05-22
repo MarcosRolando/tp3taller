@@ -52,15 +52,28 @@ bool ClientProtocol::finishedReceiving() const {
     return readResponse;
 }
 
+void ClientProtocol::processResponse(std::unique_ptr<char[]>& response) {
+    if (!readLength) {
+        responseLength = *reinterpret_cast<uint32_t*>(response.get());
+        responseLength = ntohl(responseLength);
+        responseLength++; /*cuento el \0*/
+        readLength = true;
+    } else {
+        response[responseLength-1] = '\0';
+        readLength = false;
+        readResponse = true;
+    }
+}
+
 std::unique_ptr<char[]> ClientProtocol::responseBuffer(unsigned int& bufferLength) {
-    if (!readResponse) { /*esto es muy rancio, cambiarlo*/
+    if (!readLength) { /*esto es muy rancio, cambiarlo*/
+        readResponse = false;
         bufferLength = 4;
         std::unique_ptr<char[]> buffer(new char[bufferLength]());
         return buffer;
     }  else {
-        bufferLength =
-        std::unique_ptr<char[]> buffer(new char[4]());
-        readResponse = true;
+        bufferLength = responseLength - 1; /*no hay \0 en el mensaje a leer*/
+        std::unique_ptr<char[]> buffer(new char[responseLength]());
         return buffer;
     }
 }

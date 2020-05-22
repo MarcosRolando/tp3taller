@@ -11,3 +11,7 @@ std::string User::getInput() {
     std::getline(std::cin, input);
     return input;
 }
+
+void User::showResponse(std::unique_ptr<char[]> message) {
+    std::cout << message.get();
+}

@@ -3,7 +3,7 @@ project(tp3taller)
 
 add_executable(tp main.cpp Socket.cpp Socket.h ClientHandler.cpp ClientHandler.h Game.cpp Game.h
         ServerProtocol.cpp ServerProtocol.h TPException.cpp TPException.h
-        Thread.cpp Thread.h Server.cpp Server.h FileReader.cpp FileReader.h Client.cpp Client.h ClientProtocol.cpp ClientProtocol.h User.cpp User.h)
+        Thread.cpp Thread.h Server.cpp Server.h FileReader.cpp FileReader.h Client.cpp Client.h ClientProtocol.cpp ClientProtocol.h User.cpp User.h ClosedSocketException.cpp ClosedSocketException.h)
 
 target_compile_options (tp PRIVATE -std=c++11 -Wall -Werror -pedantic -pedantic-errors
         -O0 -ggdb -DDEBUG -fno-inline)

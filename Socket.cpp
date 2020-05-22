@@ -6,6 +6,7 @@
 #include <netdb.h>
 #include <unistd.h>
 #include <exception>
+#include "ClosedSocketException.h"
 
 void Socket::connect(struct addrinfo* addresses) {
 struct addrinfo* rp;
@@ -53,6 +54,7 @@ void Socket::send(char* message, size_t length) const {
     while (bytesSent < length) {
         s = ::send(fd, message + bytesSent, length - bytesSent, MSG_NOSIGNAL);
         if (s == -1) throw std::exception();
+        if (s == 0) throw ClosedSocketException();
         bytesSent += s;
     }
 }
@@ -64,7 +66,7 @@ void Socket::receive(char* message, size_t length) const {
     while (bytesReceived < length) {
         s = recv(fd, message + bytesReceived, length - bytesReceived, 0);
         if (s == -1) throw std::exception();
-        if (s == 0) break;
+        if (s == 0) throw ClosedSocketException();
         bytesReceived += s;
     }
 }

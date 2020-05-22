@@ -8,6 +8,7 @@
 #include "User.h"
 #include "TPException.h"
 #include <iostream>
+#include "ClosedSocketException.h"
 
 struct addrinfo* Client::_getAddresses() {
     struct addrinfo hints{}, *result;
@@ -31,19 +32,25 @@ void Client::_send() {
 
 void Client::_receive() {
     unsigned int bufferLength;
-    while(!protocol.finishedReceiving()) {
-        std::unique_ptr<char[]> response = protocol.responseBuffer(bufferLength);
-    }
+    std::unique_ptr<char[]> response;
+    do {
+        response.reset();
+        response = protocol.responseBuffer(bufferLength);
+        socket.receive(response.get(), bufferLength);
+        protocol.processResponse(response);
+    } while(!protocol.finishedReceiving());
+    User::showResponse(std::move(response));
 }
 
 void Client::_processConnection() {
-    bool finished = false;
     while (!finished) {
         try {
             _send();
             _receive();
         } catch (TPException& e) {
             std::cout << e.what() << std::endl; /*esto es medio sidoso, lo ideal seria meterlo en user el printeo ver bien donde lo manejo*/
+        } catch (ClosedSocketException& e) {
+            finished = true;
         }
     }
 }
