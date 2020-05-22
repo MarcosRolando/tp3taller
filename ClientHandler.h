@@ -18,12 +18,13 @@ class ClientHandler : public Thread {
 private:
     Socket socket;
     ServerProtocol protocol;
-    bool finished;
+    std::atomic<bool> finished;
 public:
     ClientHandler(Socket&& socket, unsigned int short secretNumber) :
         socket(std::move(socket)), protocol(secretNumber), finished(false) {};
     void run() override;
     void forceFinish();
+    bool hasFinished();
 };
 
 

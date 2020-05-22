@@ -25,4 +25,8 @@ void ClientHandler::forceFinish() {
     socket.close();
 }
 
+bool ClientHandler::hasFinished() {
+    return finished;
+}
+
 

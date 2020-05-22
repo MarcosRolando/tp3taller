@@ -4,6 +4,7 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <cstring>
+#include <algorithm>
 #include "Server.h"
 #include "ClientHandler.h"
 
@@ -22,12 +23,30 @@ struct addrinfo* Server::_getAddresses() {
     return result;
 }
 
+bool clientHasFinished(ClientHandler*& client) {
+    if (client->hasFinished()) {
+        client->join();
+        return true;
+    }
+    return false;
+}
+
+void Server::_acceptConnections() {
+    std::vector<ClientHandler*> clients;
+    unsigned short int secretNumber;
+    while (!finished) {
+        Socket peer = socket.accept(); //acepto la conexion
+        secretNumber = file.getNextNumber();
+        clients.push_back(new ClientHandler(std::move(peer), secretNumber));
+        clients.back()->run();
+        clients.erase(std::remove_if(clients.begin(), clients.end(), clientHasFinished), clients.end());
+    }
+}
+
 void Server::connect() {
     struct addrinfo* addresses = _getAddresses();
     socket.bind(addresses);
     freeaddrinfo(addresses); //en este punto ya logre bindear al socket
     socket.maxListen(MAX_LISTENERS);
-    Socket peer = socket.accept(); //acepto la conexion
-    ClientHandler cHandler(std::move(peer), 123);
-    cHandler.run();
+    _acceptConnections();
 }
