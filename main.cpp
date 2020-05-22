@@ -6,7 +6,7 @@
 int main(int argc, char** argv) {
     std::string mode = argv[1];
     if (mode == "server") {
-        Server server("8080", "numeros");
+        Server server("8080", "server.list");
         server.connect();
     } else if (mode == "client") {
         Client client("localhost", "8080");

@@ -38,7 +38,7 @@ void Server::_acceptConnections() {
         Socket peer = socket.accept(); //acepto la conexion
         secretNumber = file.getNextNumber();
         clients.push_back(new ClientHandler(std::move(peer), secretNumber));
-        clients.back()->run();
+        clients.back()->start();
         clients.erase(std::remove_if(clients.begin(), clients.end(), clientHasFinished), clients.end());
     }
 }
