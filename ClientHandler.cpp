@@ -23,11 +23,6 @@ void ClientHandler::run() {
     }
 }
 
-void ClientHandler::forceFinish() {
-    finished = true;
-    socket.close();
-}
-
 bool ClientHandler::hasFinished() {
     return finished;
 }

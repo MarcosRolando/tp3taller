@@ -6,11 +6,21 @@
 int main(int argc, char** argv) {
     std::string mode = argv[1];
     if (mode == "server") {
-        Server server("8080", "server.list");
-        server.connect();
+        try {
+            Server server("8080", "server.list");
+            server.connect();
+        } catch (TPException& e) {
+            std::cout << e.what() << std::endl;
+        }
+
     } else if (mode == "client") {
-        Client client("localhost", "8080");
-        client.connect();
+        try {
+            Client client("localhost", "8080");
+            client.connect();
+        } catch (TPException& e) {
+            std::cout << e.what() << std::endl;
+        }
+
     } else {
         std::cout << "Le pifiaste el modo capo" << std::endl;
     }

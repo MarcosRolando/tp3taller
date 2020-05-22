@@ -49,7 +49,6 @@ void Server::_acceptConnections() {
         } catch (ClosedSocketException& e) {}
     }
     for (auto & client : clients) {
-        client->forceFinish();
         client->join();
     }
     monitor.join();

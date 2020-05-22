@@ -7,8 +7,8 @@
 
 FileReader::FileReader(std::string&& fileName)  :
                                             fileName(fileName), file(fileName) {
-    if (!this->file.is_open()) throw TPException("El archivo" +
-    fileName + "no se encuentra en el directorio del ejecutable o no existe");
+    if (!this->file.is_open()) throw TPException("El archivo " +
+    fileName + " no se encuentra en el directorio del ejecutable o no existe");
     _readNumbers();
     currentNumber = numbers.begin();
 }

@@ -60,7 +60,12 @@ void Client::_processConnection() {
 
 void Client::connect() {
     struct addrinfo* addresses = _getAddresses();
-    socket.connect(addresses);
+    try {
+        socket.connect(addresses);
+    } catch (TPException& e) {
+        freeaddrinfo(addresses);
+        throw e;
+    }
     freeaddrinfo(addresses);
     _processConnection();
 }

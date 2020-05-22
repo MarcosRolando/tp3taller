@@ -5,7 +5,7 @@
 #include "Socket.h"
 #include <netdb.h>
 #include <unistd.h>
-#include <exception>
+#include "TPException.h"
 #include "ClosedSocketException.h"
 
 void Socket::connect(struct addrinfo* addresses) {
@@ -20,7 +20,7 @@ struct addrinfo* rp;
 
         ::close(this->fd);
     }
-    //chequear por error y tirar exception
+    if (rp == nullptr) throw TPException("Could not connect");
 }
 
 void Socket::bind(struct addrinfo* addresses) {
@@ -38,7 +38,7 @@ void Socket::bind(struct addrinfo* addresses) {
 
         ::close(this->fd);
     }
-    //chequear por error y tirar exception
+    if (rp == nullptr) throw TPException("Could not bind");
 }
 
 Socket Socket::accept() const {
