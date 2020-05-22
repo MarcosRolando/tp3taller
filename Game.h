@@ -26,6 +26,7 @@ public:
 private:
     void _updateStatus(unsigned char result);
     void _compareNumbers(unsigned char& result, std::string&& number);
+    static void _verifyRepeatedDigits(std::string& strNumber);
 };
 
 #endif //TP3TALLER_GAME_H

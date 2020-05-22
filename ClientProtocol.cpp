@@ -60,6 +60,8 @@ void ClientProtocol::processResponse(std::unique_ptr<char[]>& response) {
         readLength = true;
     } else {
         response[responseLength-1] = '\0';
+        std::string strResponse = response.get();
+        if (strResponse == "Perdiste\n" || strResponse == "Ganaste\n") finished = true;
         readLength = false;
         readResponse = true;
     }
@@ -76,5 +78,9 @@ std::unique_ptr<char[]> ClientProtocol::responseBuffer(unsigned int& bufferLengt
         std::unique_ptr<char[]> buffer(new char[responseLength]());
         return buffer;
     }
+}
+
+bool ClientProtocol::hasFinished() const {
+    return finished;
 }
 

@@ -52,6 +52,7 @@ void Client::_processConnection() {
         } catch (ClosedSocketException& e) {
             finished = true;
         }
+        finished = protocol.hasFinished();
     }
 }
 

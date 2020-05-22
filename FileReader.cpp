@@ -14,10 +14,9 @@ FileReader::FileReader(std::string&& fileName)  :
 }
 
 void FileReader::_verifyRepeatedDigits(std::string&& strNumber) {
-    if (strNumber.back() == strNumber.front())
-        throw TPException("Error: formato de los números inválidos"); /*comparo los extremos*/
-    if (strNumber.back() == strNumber[1])
-        throw TPException("Error: formato de los números inválidos"); /*comparo con el del medio*/
+    if (strNumber[0] == strNumber[1]) throw TPException("Digitos repetidos");
+    if (strNumber[0] == strNumber[2]) throw TPException("Digitos repetidos");
+    if (strNumber[1] == strNumber[2]) throw TPException("Digitos repetidos");
 }
 
 void FileReader::_readNumbers() {

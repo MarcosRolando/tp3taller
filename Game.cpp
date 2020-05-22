@@ -35,15 +35,18 @@ void Game::_compareNumbers(unsigned char& result, std::string&& number) {
     }
 }
 
+void Game::_verifyRepeatedDigits(std::string& strNumber) {
+    if (strNumber[0] == strNumber[1]) throw TPException("Digitos repetidos");
+    if (strNumber[0] == strNumber[2]) throw TPException("Digitos repetidos");
+    if (strNumber[1] == strNumber[2]) throw TPException("Digitos repetidos");
+}
+
 /*Por cada numero bien sumo 10, regular sumo 1, mal no sumo nada*/
 unsigned char Game::guess(unsigned short int number) { //con un char me alcanza
     if ( (number < 100) || (number > 999) )
         throw TPException("Rango invalido");
     std::string strNumber = std::to_string(number);
-    if (strNumber.back() == strNumber.front())
-        throw TPException("Digitos repetidos"); /*comparo los extremos*/
-    if (strNumber.back() == strNumber[1])
-        throw TPException("Digitos repetidos"); /*comparo con el del medio*/
+    _verifyRepeatedDigits(strNumber);
     unsigned char result = 0;
     _compareNumbers(result, std::move(strNumber));
     _updateStatus(result);
