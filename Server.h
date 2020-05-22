@@ -21,6 +21,7 @@ public:
     Server(std::string&& port, std::string&& fileName) : finished(false),
                             port(std::move(port)), file(std::move(fileName)) {};
     void connect();
+    void forceFinish();
 private:
     struct addrinfo* _getAddresses();
     void _acceptConnections();

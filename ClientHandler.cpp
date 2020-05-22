@@ -3,6 +3,7 @@
 //
 
 #include "ClientHandler.h"
+#include "ClosedSocketException.h"
 
 void ClientHandler::run() {
     while (!finished) {
@@ -15,8 +16,10 @@ void ClientHandler::run() {
             }
             std::unique_ptr<char[]> response = protocol.getResponse(bufferSize);
             socket.send(response.get(), bufferSize);
-        } catch (std::exception& e){}
-        finished = protocol.hasFinished();
+        } catch (ClosedSocketException& e){}
+        if (!finished)  {
+            finished = protocol.hasFinished();
+        }
     }
 }
 

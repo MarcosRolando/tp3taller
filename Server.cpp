@@ -7,6 +7,8 @@
 #include <algorithm>
 #include "Server.h"
 #include "ClientHandler.h"
+#include "ServerMonitor.h"
+#include "ClosedSocketException.h"
 
 const int MAX_LISTENERS = 1;
 
@@ -23,7 +25,7 @@ struct addrinfo* Server::_getAddresses() {
     return result;
 }
 
-bool clientHasFinished(ClientHandler*& client) {
+bool clientHasFinished(std::unique_ptr<ClientHandler>& client) {
     if (client->hasFinished()) {
         client->join();
         return true;
@@ -32,15 +34,30 @@ bool clientHasFinished(ClientHandler*& client) {
 }
 
 void Server::_acceptConnections() {
-    std::vector<ClientHandler*> clients;
+    std::vector<std::unique_ptr<ClientHandler>> clients;
     unsigned short int secretNumber;
+    ServerMonitor monitor(*this);
+    monitor.start();
     while (!finished) {
-        Socket peer = socket.accept(); //acepto la conexion
-        secretNumber = file.getNextNumber();
-        clients.push_back(new ClientHandler(std::move(peer), secretNumber));
-        clients.back()->start();
-        clients.erase(std::remove_if(clients.begin(), clients.end(), clientHasFinished), clients.end());
+        try {
+            Socket peer = socket.accept(); //acepto la conexion
+            secretNumber = file.getNextNumber();
+            clients.emplace_back(new ClientHandler(std::move(peer), secretNumber));
+            clients.back()->start();
+            clients.erase(std::remove_if(clients.begin(), clients.end(),
+                                         clientHasFinished), clients.end());
+        } catch (ClosedSocketException& e) {}
     }
+    for (auto & client : clients) {
+        client->forceFinish();
+        client->join();
+    }
+    monitor.join();
+}
+
+void Server::forceFinish() {
+    finished = true;
+    socket.close();
 }
 
 void Server::connect() {
