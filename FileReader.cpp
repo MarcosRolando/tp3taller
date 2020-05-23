@@ -3,7 +3,7 @@
 
 #define OUT_OF_RANGE "Error: archivo con números fuera de rango"
 #define BAD_FORMAT "Error: el archivo debe contener numeros unicamente"
-#define REPEATED_DIGITS "Digitos repetidos"
+#define REPEATED_DIGITS "Error: formato de los números inválidos"
 const unsigned int MIN_NUMBER = 100, MAX_NUMBER = 999;
 
 FileReader::FileReader(std::string&& fileName) : file(fileName) {
@@ -26,18 +26,18 @@ void FileReader::_readNumbers() {
         std::getline(file, strNumber);
         try {
             number = std::stoi(strNumber);
+            _verifyValidRange(number);
             _verifyRepeatedDigits(std::move(strNumber));
         } catch (std::invalid_argument& e) {
             throw TPException(BAD_FORMAT);
         }
-        _addNumber(number);
+        numbers.push_back(number);
     }
 }
 
-void FileReader::_addNumber(unsigned int number) {
+void FileReader::_verifyValidRange(unsigned int number) {
     if ( (number < MIN_NUMBER) || (number > MAX_NUMBER) )
         throw TPException(OUT_OF_RANGE);
-    numbers.push_back(number);
 }
 
 unsigned int FileReader::getNextNumber() {

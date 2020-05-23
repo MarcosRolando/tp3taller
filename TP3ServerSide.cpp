@@ -13,9 +13,9 @@ int TP3ServerSide::run(int argc, char** argv) {
     try {
         Server server(argv[1], argv[2]);
         server.connect();
+        Game::showResults();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
     }
-    Game::showResults();
     return 0;
 }
