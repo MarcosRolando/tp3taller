@@ -11,7 +11,7 @@ void ClientHandler::run() {
             unsigned int bufferSize = 1;
             while (bufferSize != 0) {
                 std::unique_ptr<char[]> buffer(new char[bufferSize]);
-                socket.receive(buffer.get(), bufferSize); /*en el TP1 recibia char**, REVISAR PORQUE CAPAZ FALLO ACA*/ //todo
+                socket.receive(buffer.get(), bufferSize);
                 bufferSize = protocol.processCommand(buffer.get());
             }
             std::unique_ptr<char[]> response = protocol.getResponse(bufferSize);
