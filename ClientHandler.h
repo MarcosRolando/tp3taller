@@ -20,7 +20,7 @@ private:
     ServerProtocol protocol;
     std::atomic<bool> finished;
 public:
-    ClientHandler(Socket&& socket, unsigned int short secretNumber) :
+    ClientHandler(Socket&& socket, unsigned short secretNumber) :
         socket(std::move(socket)), protocol(secretNumber), finished(false) {};
     void run() override;
     bool hasFinished();

@@ -2,8 +2,8 @@
 // Created by marcos on 25/4/20.
 //
 
-#ifndef TP1_SERVER_H
-#define TP1_SERVER_H
+#ifndef TP3_SERVER_H
+#define TP3_SERVER_H
 
 #include "Socket.h"
 #include "FileReader.h"
@@ -27,4 +27,4 @@ private:
     void _acceptConnections();
 };
 
-#endif //TP1_SERVER_H
+#endif //TP3_SERVER_H

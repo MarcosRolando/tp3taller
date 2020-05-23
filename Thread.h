@@ -2,8 +2,8 @@
 // Created by marcos on 12/5/20.
 //
 
-#ifndef TP2TALLER_THREAD_H
-#define TP2TALLER_THREAD_H
+#ifndef TP3TALLER_THREAD_H
+#define TP3TALLER_THREAD_H
 
 #include <thread>
 
@@ -17,4 +17,4 @@ public:
 };
 
 
-#endif //TP2TALLER_THREAD_H
+#endif //TP3TALLER_THREAD_H

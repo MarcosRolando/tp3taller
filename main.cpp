@@ -7,7 +7,7 @@ int main(int argc, char** argv) {
     std::string mode = argv[1];
     if (mode == "server") {
         try {
-            Server server("8080", "server.list");
+            Server server("8081", "server.list");
             server.connect();
         } catch (TPException& e) {
             std::cout << e.what() << std::endl;
@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
 
     } else if (mode == "client") {
         try {
-            Client client("localhost", "8080");
+            Client client("localhost", "8081");
             client.connect();
         } catch (TPException& e) {
             std::cout << e.what() << std::endl;

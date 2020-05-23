@@ -14,10 +14,10 @@ void Game::_updateStatus(unsigned char result) {
     playerTries++;
     if (result == PERFECT_SCORE) {
         finished = true;
-        wonGames++;
+        ++wonGames;
     } else if (playerTries == MAX_PLAYER_TRIES) {
         finished = true;
-        lostGames++;
+        ++lostGames;
     }
 }
 
@@ -30,7 +30,7 @@ void Game::_compareNumbers(unsigned char& result, std::string&& number) {
             ++j;
             if (digitN == digitSN) {
                 if (i == j) result += 10;
-                else result++;
+                else ++result;
             }
         }
     }
@@ -59,7 +59,7 @@ bool Game::hasFinished() const {
 }
 
 void Game::surrender() {
-    lostGames++;
+    ++lostGames;
     finished = true;
 }
 
