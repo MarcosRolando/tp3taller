@@ -8,8 +8,11 @@ void ClientHandler::run() {
             unsigned int bufferLength;
             _receive(message, bufferLength);
             _send(message, bufferLength);
-        } catch (OSException& e){}
-        finished = protocol.hasFinished();
+        } catch (OSException& e) {
+            finished = true; /*Hubo algun error con el cliente
+                                *, corto la conexion*/
+        }
+        if (!finished) finished = protocol.hasFinished();
     }
 }
 

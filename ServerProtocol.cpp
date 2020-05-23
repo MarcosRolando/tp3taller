@@ -51,8 +51,8 @@ void ServerProtocol::_numberCommand(const char* clientCommand) {
             _setGuessResult(score);
         }
     } catch (TPException& e) {
-        response = INVALID_NUMBER_MESSAGE;
         if (game.hasFinished()) response = LOST_MESSAGE;
+        else response = INVALID_NUMBER_MESSAGE;
     }
 }
 
