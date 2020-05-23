@@ -12,11 +12,11 @@ class FileReader {
 private:
     std::string fileName;
     std::ifstream file;
-    std::vector<unsigned short int> numbers;
-    std::vector<unsigned short int>::iterator currentNumber;
+    std::vector<unsigned short> numbers;
+    std::vector<unsigned short>::iterator currentNumber;
 public:
     explicit FileReader(std::string&& fileName);
-    unsigned short int getNextNumber();
+    unsigned short getNextNumber();
 private:
     void _readNumbers();
     static void _verifyRepeatedDigits(std::string&& strNumber);

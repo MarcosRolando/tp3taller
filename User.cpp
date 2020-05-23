@@ -13,5 +13,5 @@ std::string User::getInput() {
 }
 
 void User::showResponse(std::unique_ptr<char[]> message) {
-    std::cout << message.get();
+    std::cout << message.get() << std::endl;
 }

@@ -68,7 +68,6 @@ unsigned int ServerProtocol::processCommand(const char* clientCommand) {
 }
 
 std::unique_ptr<char []> ServerProtocol::getResponse(unsigned int& bufferSize) {
-    response += "\n";
     uint32_t msgLength = response.length();
     bufferSize = msgLength + 4;
     std::unique_ptr<char[]> responseMsg(new char[bufferSize]()); /*4 bytes del largo*/

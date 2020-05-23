@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
     }
     /*
     ServerProtocol protocol(124);
-    unsigned short int number = 200;
+    unsigned short number = 200;
     char* n = reinterpret_cast<char*>(&number);
     protocol.processCommand(n);
     unsigned int buffSize;

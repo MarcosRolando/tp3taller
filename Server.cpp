@@ -35,7 +35,7 @@ bool clientHasFinished(std::unique_ptr<ClientHandler>& client) {
 
 void Server::_acceptConnections() {
     std::vector<std::unique_ptr<ClientHandler>> clients;
-    unsigned short int secretNumber;
+    unsigned short secretNumber;
     ServerMonitor monitor(*this);
     monitor.start();
     while (!finished) {

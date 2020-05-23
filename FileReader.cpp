@@ -40,9 +40,9 @@ void FileReader::_addNumber(unsigned int short number) {
     numbers.push_back(number);
 }
 
-unsigned short int FileReader::getNextNumber() {
+unsigned short FileReader::getNextNumber() {
     if (currentNumber == numbers.end()) currentNumber = numbers.begin();
-    unsigned short int n = *currentNumber;
+    unsigned short n = *currentNumber;
     currentNumber++;
     return n;
 }

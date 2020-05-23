@@ -1,13 +1,8 @@
-//
-// Created by marcos on 20/5/20.
-//
-
 #ifndef TP3TALLER_GAME_H
 #define TP3TALLER_GAME_H
 
-/*Esta clase contiene la logica del juego Adivina el Numero, y se instanciara
- * una por cada cliente que se conecte para simplificar el problema y mejorar la
- * eficiencia de performance evitando compartir recursos*/
+/*Esta clase contiene la logica del juego Adivina el Numero, instanciandose
+ * una por cada cliente que se conecte*/
 
 #include <string>
 #include <atomic>
@@ -15,13 +10,21 @@
 class Game {
 private:
     bool finished;
-    std::string secretNumber; /*el numero siempre sera valido, lo verifica el FileReader*/
-    unsigned char playerTries; /*solo son 10 intentos asi que el char me alcanza*/
-    static std::atomic<unsigned int> wonGames, lostGames; //comun a todos los juegos, puede ser que no lo haga static despues
+    std::string secretNumber;
+    unsigned char playerTries;
+    static std::atomic<unsigned int> wonGames, lostGames;
 public:
-    explicit Game(unsigned short int secretNumber);
-    unsigned char guess(unsigned short int number);
+    explicit Game(unsigned short secretNumber);
+
+    /*Compara el numero que ingreso el cliente con el numero secreto y retorna
+     * una puntuacion donde se asignan 10 puntos por digito correcto y 1
+     * punto por digito regular. Los mal no suman puntos*/
+    unsigned char guess(unsigned short number);
+
+    /*Termina el juego y computa una derrota*/
     void surrender();
+
+    /*Retorna si el juego ha o no terminado*/
     bool hasFinished() const;
 private:
     void _updateStatus(unsigned char result);
