@@ -1,9 +1,8 @@
-//
-// Created by marcos on 12/5/20.
-//
-
 #ifndef TP3TALLER_THREAD_H
 #define TP3TALLER_THREAD_H
+
+/*Esta clase es abstracta, las clases que heredan de ella pueden correr el
+ * metodo run en un thread nuevo*/
 
 #include <thread>
 
@@ -11,8 +10,13 @@ class Thread {
 private:
     std::thread thread;
 public:
+    /*Ejecuta en un nuevo thread al metodo run*/
     void start();
+
+    /*Joinea el thread*/
     void join();
+
+    /*Metodo abstracto, las clases hijas deben implementarlo*/
     virtual void run() = 0;
 };
 
