@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 project(tp3taller)
 
+add_subdirectory(tests)
+
 add_executable(server Socket.cpp Socket.h ClientHandler.cpp ClientHandler.h Game.cpp Game.h
         ServerProtocol.cpp ServerProtocol.h TPException.cpp TPException.h
         Thread.cpp Thread.h Server.cpp Server.h FileReader.cpp FileReader.h
