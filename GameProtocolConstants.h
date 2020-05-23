@@ -1,0 +1,11 @@
+#ifndef TP3TALLER_GAMEPROTOCOLCONSTANTS_H
+#define TP3TALLER_GAMEPROTOCOLCONSTANTS_H
+
+#define LOST_MESSAGE "Perdiste"
+#define WON_MESSAGE "Ganaste"
+
+const char HELP_CHAR = 'h';
+const char SURRENDER_CHAR = 's';
+const char NUMBER_CHAR = 'n';
+
+#endif //TP3TALLER_GAMEPROTOCOLCONSTANTS_H

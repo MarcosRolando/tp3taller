@@ -2,20 +2,16 @@
 #include <arpa/inet.h>
 #include <cstring>
 #include "TPException.h"
+#include "GameProtocolConstants.h"
 
 #define HELP_MESSAGE "Comandos validos:\n\tAYUDA: despliega la lista" \
                         "de comandos validos\n\tRENDIRSE: pierde el juego" \
                         " automaticamente\n\tXXX: Numero de 3 cifras a ser " \
                         "enviado al servidor para adivinar el numero secreto"
 
-#define LOST_MESSAGE "Perdiste"
-#define WON_MESSAGE "Ganaste"
+
 #define INVALID_NUMBER_MESSAGE "Número inválido. Debe ser de 3 cifras no " \
                                                                     "repetidas"
-
-const char HELP_CHAR = 'h';
-const char SURRENDER_CHAR = 's';
-const char NUMBER_CHAR = 'n';
 
 const unsigned char PERFECT_SCORE = 30;
 
