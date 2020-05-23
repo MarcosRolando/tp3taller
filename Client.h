@@ -1,8 +1,8 @@
 #ifndef TP3TALLER_CLIENT_H
 #define TP3TALLER_CLIENT_H
 
-/*Esta es la clase principal del lado del Cliente, se encarga de manejar la
- * logica de la conexion con el Server*/
+/*Esta clase se encarga de manejar la logica de la conexion y comuniacion
+ * con el Server*/
 
 #include "Socket.h"
 #include "ClientProtocol.h"

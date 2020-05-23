@@ -73,5 +73,4 @@ void Server::connect() {
     freeaddrinfo(addresses);
     socket.maxListen(MAX_LISTENERS);
     _processConnections();
-    Game::showResults();
 }

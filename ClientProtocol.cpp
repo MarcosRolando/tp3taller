@@ -25,7 +25,6 @@ std::unique_ptr<char[]> ClientProtocol::_surrenderCommand(unsigned int& bufferSi
     return buffer;
 }
 
-
 std::unique_ptr<char[]> ClientProtocol::_numberCommand(std::string&& command,
                                                     unsigned int& bufferSize) {
     bufferSize = 3;
