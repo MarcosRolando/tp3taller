@@ -61,7 +61,7 @@ void ClientProtocol::processResponse(std::unique_ptr<char[]>& response) {
     } else {
         response[responseLength-1] = '\0';
         std::string strResponse = response.get();
-        if (strResponse == "Perdiste\n" || strResponse == "Ganaste\n") finished = true;
+        if (strResponse == "Perdiste" || strResponse == "Ganaste") finished = true;
         readLength = false;
         readResponse = true;
     }
