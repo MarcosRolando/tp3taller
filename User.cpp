@@ -1,7 +1,3 @@
-//
-// Created by marcos on 21/5/20.
-//
-
 #include "User.h"
 #include <iostream>
 #include <string>
@@ -12,6 +8,6 @@ std::string User::getInput() {
     return input;
 }
 
-void User::showResponse(std::unique_ptr<char[]> message) {
-    std::cout << message.get() << std::endl;
+void User::showMessage(const char* message) {
+    std::cout << message << std::endl;
 }

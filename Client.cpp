@@ -1,24 +1,19 @@
-//
-// Created by marcos on 21/5/20.
-//
-
 #include <netdb.h>
 #include "Client.h"
 #include <cstring>
 #include "User.h"
 #include "TPException.h"
-#include <iostream>
 #include "OSException.h"
 
 struct addrinfo* Client::_getAddresses() {
     struct addrinfo hints{}, *result;
-    int s; //flag por si hubo un error
+    int s; /*Para verificar errores*/
     memset(&hints, 0, sizeof(struct addrinfo));
     hints.ai_family = AF_INET;       /* IPv4 (or AF_INET6 for IPv6)     */
     hints.ai_socktype = SOCK_STREAM; /* TCP  (or SOCK_DGRAM for UDP)    */
     hints.ai_flags = 0;              /* None (or AI_PASSIVE for server) */
     s = getaddrinfo(host.c_str(), port.c_str(), &hints, &result);
-    if (s != 0) throw std::exception();
+    if (s != 0) throw OSException("Error in getaddrinfo: %s", gai_strerror(s));
     return result;
 }
 
@@ -39,7 +34,7 @@ void Client::_receive() {
         socket.receive(response.get(), bufferLength);
         protocol.processResponse(response);
     } while(!protocol.finishedReceiving());
-    User::showResponse(std::move(response));
+    User::showMessage(response.get());
 }
 
 void Client::_processConnection() {
@@ -48,13 +43,9 @@ void Client::_processConnection() {
             _send();
             _receive();
         } catch (TPException& e) {
-            std::cout << e.what() << std::endl; /*esto es medio sidoso, lo ideal seria meterlo en user el printeo ver bien donde lo manejo*/
-        } catch (OSException& e) {
-            finished = true;
+            User::showMessage(e.what());
         }
-        if (!finished) {
-            finished = protocol.hasFinished();
-        }
+        finished = protocol.hasFinished();
     }
 }
 

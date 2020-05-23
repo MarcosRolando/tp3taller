@@ -1,6 +1,10 @@
 #ifndef TP3_SERVER_H
 #define TP3_SERVER_H
 
+/*Esta es la clase principal del lado del Server, se encarga de manejar la
+ * logica de las conexiones pero no de la comunicacion con los clientes. De eso
+ * se encarga el Client Handler*/
+
 #include "Socket.h"
 #include "FileReader.h"
 #include <string>
