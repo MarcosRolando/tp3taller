@@ -4,7 +4,7 @@
 const char FINISH_CHAR = 'q';
 
 void ServerMonitor::_stopOnCommand() {
-    unsigned char input = 0;
+    char input = 0;
     while (input != FINISH_CHAR) {
         std::cin >> input;
     }

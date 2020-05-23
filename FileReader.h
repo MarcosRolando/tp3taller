@@ -10,17 +10,17 @@
 class FileReader {
 private:
     std::ifstream file;
-    std::vector<unsigned short> numbers;
-    std::vector<unsigned short>::iterator currentNumber;
+    std::vector<unsigned int> numbers;
+    std::vector<unsigned int>::iterator currentNumber;
 public:
     explicit FileReader(std::string&& fileName);
 
     /*Retorna el siguiente numero del archivo acorde a Round Robin*/
-    unsigned short getNextNumber();
+    unsigned int getNextNumber();
 private:
     void _readNumbers();
     static void _verifyRepeatedDigits(std::string&& strNumber);
-    void _addNumber(unsigned short number);
+    void _addNumber(unsigned int number);
 };
 
 

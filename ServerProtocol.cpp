@@ -13,7 +13,7 @@
 #define INVALID_NUMBER_MESSAGE "Número inválido. Debe ser de 3 cifras no " \
                                                                     "repetidas"
 
-const unsigned char PERFECT_SCORE = 30;
+const unsigned int PERFECT_SCORE = 30;
 
 void ServerProtocol::_helpCommand() {
     response = HELP_MESSAGE;
@@ -24,9 +24,9 @@ void ServerProtocol::_surrenderCommand() {
     response = LOST_MESSAGE;
 }
 
-void ServerProtocol::_setGuessResult(unsigned char score) {
-    unsigned char firstDigit = (score / 10) % 10;
-    unsigned char secondDigit = score % 10;
+void ServerProtocol::_setGuessResult(unsigned int score) {
+    unsigned int firstDigit = (score / 10) % 10;
+    unsigned int secondDigit = score % 10;
     response.clear();
     if (firstDigit == 0 && secondDigit == 0) {
         response += "3 mal";
@@ -43,7 +43,7 @@ void ServerProtocol::_numberCommand(const char* clientCommand) {
     uint16_t number = *(reinterpret_cast<const uint16_t *>(clientCommand));
     number = ntohs(number);
     try {
-        unsigned char score = game.guess(number);
+        unsigned int score = game.guess(number);
         if (game.hasFinished()) {
             if (score == PERFECT_SCORE) response = WON_MESSAGE;
             else response = LOST_MESSAGE;

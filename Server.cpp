@@ -32,7 +32,7 @@ bool clientHasFinished(std::unique_ptr<ClientHandler>& client) {
 }
 
 void Server::_acceptConnections() {
-    unsigned short secretNumber;
+    unsigned int secretNumber;
     while (!finished) {
         try {
             Socket peer = socket.accept();

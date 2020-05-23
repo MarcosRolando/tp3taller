@@ -11,15 +11,15 @@ class Game {
 private:
     bool finished;
     std::string secretNumber;
-    unsigned char playerTries;
+    unsigned int playerTries;
     static std::atomic<unsigned int> wonGames, lostGames;
 public:
-    explicit Game(unsigned short secretNumber);
+    explicit Game(unsigned int secretNumber);
 
     /*Compara el numero que ingreso el cliente con el numero secreto y retorna
      * una puntuacion donde se asignan 10 puntos por digito correcto y 1
      * punto por digito regular. Los mal no suman puntos*/
-    unsigned char guess(unsigned short number);
+    unsigned int guess(unsigned int number);
 
     /*Termina el juego y computa una derrota*/
     void surrender();
@@ -30,8 +30,8 @@ public:
     /*Muestra por stdout los resultados de las partidas*/
     static void showResults();
 private:
-    void _updateStatus(unsigned char result);
-    void _compareNumbers(unsigned char& result, std::string&& number);
+    void _updateStatus(unsigned int result);
+    void _compareNumbers(unsigned int& result, std::string&& number);
     void _verifyRepeatedDigits(std::string& strNumber);
 };
 

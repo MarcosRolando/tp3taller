@@ -4,7 +4,7 @@
 #define OUT_OF_RANGE "Error: archivo con números fuera de rango"
 #define BAD_FORMAT "Error: el archivo debe contener numeros unicamente"
 #define REPEATED_DIGITS "Digitos repetidos"
-const unsigned short MIN_NUMBER = 100, MAX_NUMBER = 999;
+const unsigned int MIN_NUMBER = 100, MAX_NUMBER = 999;
 
 FileReader::FileReader(std::string&& fileName) : file(fileName) {
     if (!this->file.is_open()) throw TPException("El archivo " +
@@ -21,7 +21,7 @@ void FileReader::_verifyRepeatedDigits(std::string&& strNumber) {
 
 void FileReader::_readNumbers() {
     std::string strNumber;
-    unsigned short number;
+    unsigned int number;
     while (!file.eof()) {
         std::getline(file, strNumber);
         try {
@@ -34,15 +34,15 @@ void FileReader::_readNumbers() {
     }
 }
 
-void FileReader::_addNumber(unsigned short number) {
+void FileReader::_addNumber(unsigned int number) {
     if ( (number < MIN_NUMBER) || (number > MAX_NUMBER) )
         throw TPException(OUT_OF_RANGE);
     numbers.push_back(number);
 }
 
-unsigned short FileReader::getNextNumber() {
+unsigned int FileReader::getNextNumber() {
     if (currentNumber == numbers.end()) currentNumber = numbers.begin();
-    unsigned short n = *currentNumber;
+    unsigned int n = *currentNumber;
     ++currentNumber;
     return n;
 }

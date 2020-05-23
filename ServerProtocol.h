@@ -17,7 +17,7 @@ private:
     std::string response;
     bool receivingNumber, readCommand;
 public:
-    explicit ServerProtocol(unsigned short secretNumber) : game(secretNumber),
+    explicit ServerProtocol(unsigned int secretNumber) : game(secretNumber),
                                 receivingNumber(false), readCommand(false){};
 
     /*Recibe el buffer con el comando enviado por el cliente y lo descifra*/
@@ -40,7 +40,7 @@ private:
     void _helpCommand();
     void _surrenderCommand();
     void _numberCommand(const char* clientCommand);
-    void _setGuessResult(unsigned char score);
+    void _setGuessResult(unsigned int score);
 };
 
 

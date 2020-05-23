@@ -4,14 +4,14 @@
 
 #define INVALID_RANGE "Rango invalido"
 #define REPEATED_DIGITS "Digitos repetidos"
-const unsigned short MIN_NUMBER = 100, MAX_NUMBER = 999;
-const unsigned char PERFECT_SCORE = 30, MAX_PLAYER_TRIES = 10;
+const unsigned int MIN_NUMBER = 100, MAX_NUMBER = 999;
+const unsigned int PERFECT_SCORE = 30, MAX_PLAYER_TRIES = 10;
 
-Game::Game(unsigned short secretNumber) : finished(false), playerTries(0) {
+Game::Game(unsigned int secretNumber) : finished(false), playerTries(0) {
     this->secretNumber = std::to_string(secretNumber);
 }
 
-void Game::_updateStatus(unsigned char result) {
+void Game::_updateStatus(unsigned int result) {
     if (result == PERFECT_SCORE) {
         finished = true;
         ++wonGames;
@@ -21,8 +21,8 @@ void Game::_updateStatus(unsigned char result) {
     }
 }
 
-void Game::_compareNumbers(unsigned char& result, std::string&& number) {
-    unsigned char i = 0, j;
+void Game::_compareNumbers(unsigned int& result, std::string&& number) {
+    unsigned int i = 0, j;
     for (auto & digitSN : secretNumber) {
         ++i;
         j = 0;
@@ -47,8 +47,8 @@ void Game::_verifyRepeatedDigits(std::string& strNumber) {
 }
 
 /*Por cada numero bien sumo 10, regular sumo 1, mal no sumo nada*/
-unsigned char Game::guess(unsigned short number) {
-    unsigned char result = 0;
+unsigned int Game::guess(unsigned int number) {
+    unsigned int result = 0;
     ++playerTries;
     if ( (number < MIN_NUMBER) || (number > MAX_NUMBER) ) {
         _updateStatus(0);

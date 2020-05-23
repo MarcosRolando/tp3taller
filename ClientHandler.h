@@ -17,7 +17,7 @@ private:
     ServerProtocol protocol;
     std::atomic<bool> finished;
 public:
-    ClientHandler(Socket&& socket, unsigned short secretNumber) :
+    ClientHandler(Socket&& socket, unsigned int secretNumber) :
         socket(std::move(socket)), protocol(secretNumber), finished(false) {};
 
     /*Implementa el metodo virtual run de Thread, que sera el metodo ejecutado
