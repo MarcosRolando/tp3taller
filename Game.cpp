@@ -39,18 +39,22 @@ void Game::_verifyRepeatedDigits(std::string& strNumber) {
     bool repeatedDigit = strNumber[0] == strNumber[1];
     repeatedDigit = repeatedDigit || (strNumber[0] == strNumber[2]);
     repeatedDigit = repeatedDigit || (strNumber[1] == strNumber[2]);
-    if (repeatedDigit) throw TPException(REPEATED_DIGITS);
+    if (repeatedDigit) {
+        _updateStatus(0);
+        throw TPException(REPEATED_DIGITS);
+    }
 }
 
 /*Por cada numero bien sumo 10, regular sumo 1, mal no sumo nada*/
 unsigned char Game::guess(unsigned short number) {
+    unsigned char result = 0;
     ++playerTries;
     if ( (number < MIN_NUMBER) || (number > MAX_NUMBER) ) {
+        _updateStatus(0);
         throw TPException(INVALID_RANGE);
     }
     std::string strNumber = std::to_string(number);
     _verifyRepeatedDigits(strNumber);
-    unsigned char result = 0;
     _compareNumbers(result, std::move(strNumber));
     _updateStatus(result);
     return result;

@@ -46,8 +46,8 @@ void ServerProtocol::_numberCommand(const char* clientCommand) {
         }
     } catch (TPException& e) {
         response = "Número inválido. Debe ser de 3 cifras no repetidas";
+        if (game.hasFinished()) response = "Perdiste";
     }
-
 }
 
 /*Retorna la cantidad de bytes que tiene que leer el ClientHandler*/

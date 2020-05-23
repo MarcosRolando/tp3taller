@@ -1,7 +1,3 @@
-//
-// Created by marcos on 20/5/20.
-//
-
 #ifndef TP3TALLER_SOCKET_H
 #define TP3TALLER_SOCKET_H
 
@@ -9,20 +5,34 @@
 
 class Socket {
 private:
-    int fd; /*file descriptor*/
+    int fd; /*File Descriptor*/
 public:
-    Socket() : fd(-1) {}; /*sobrecargo el constructor*/
-    Socket(const Socket&) = delete;
+    Socket() : fd(-1) {};
+    Socket(const Socket&) = delete; /*Borro los constructores por copia*/
     Socket operator=(const Socket&) = delete;
     Socket& operator=(Socket&&) noexcept;
     Socket(Socket&& srcSocket) noexcept;
+
+    /*Conecta el cliente al servidor*/
     void connect(struct addrinfo* addresses);
-    void bind(struct addrinfo* addresses);
-    void maxListen(int max) const;
-    void send(char* message, size_t length) const;
-    void receive(char* message, size_t length) const;
-    void close();
+
+    /*Acepta una nueva conexion, retornando el socket generado*/
     Socket accept() const;
+
+    /*Bindea a un socket*/
+    void bind(struct addrinfo* addresses);
+
+    /*Setea la cantidad maxima de clientes que se tendran en espera*/
+    void maxListen(int max) const;
+
+    /*Envia el mensaje*/
+    void send(char* message, size_t length) const;
+
+    /*Recibe el mensaje*/
+    void receive(char* message, size_t length) const;
+
+    /*Cierra el socket*/
+    void close();
     ~Socket();
 private:
     explicit Socket(int fd) : fd(fd) {};

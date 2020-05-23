@@ -1,51 +1,48 @@
-//
-// Created by marcos on 20/5/20.
-//
-
 #include "Socket.h"
 #include <netdb.h>
 #include <unistd.h>
 #include "TPException.h"
 #include "ClosedSocketException.h"
 
+#define CONNECTION_FAILURE "No se pudo conectar"
+
 void Socket::connect(struct addrinfo* addresses) {
 struct addrinfo* rp;
     for (rp = addresses; rp != nullptr; rp = rp->ai_next) {
-        this->fd = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
-        if (this->fd  == -1)
+        fd = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
+        if (fd  == -1)
             continue;
 
-        if (::connect(this->fd , rp->ai_addr, rp->ai_addrlen) != -1)
-            break;                  /* Success */
+        if (::connect(fd , rp->ai_addr, rp->ai_addrlen) != -1)
+            break; /*Logre conectarme*/
 
-        ::close(this->fd);
+        ::close(fd);
     }
-    if (rp == nullptr) throw TPException("Could not connect");
+    if (rp == nullptr) throw TPException(CONNECTION_FAILURE);
 }
 
 void Socket::bind(struct addrinfo* addresses) {
     struct addrinfo* rp;
-    int val = 1; //no entiendo esto pero el dipa lo hace
+    int val = 1;
     for (rp = addresses; rp != nullptr; rp = rp->ai_next) {
         fd = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
-        if (this->fd == -1)
+        if (fd == -1)
             continue;
 
-        setsockopt(this->fd, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val));
+        setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val));
 
-        if (::bind(this->fd, rp->ai_addr, rp->ai_addrlen) == 0)
-            break;                  /* Success */
+        if (::bind(fd, rp->ai_addr, rp->ai_addrlen) == 0)
+            break; /*Logre bindear*/
 
-        ::close(this->fd);
+        ::close(fd);
     }
     if (rp == nullptr) throw TPException("Could not bind");
 }
 
 Socket Socket::accept() const {
     int peerFd = ::accept(fd, nullptr, nullptr);
-    if (peerFd == -1) throw ClosedSocketException();
-    Socket peer(peerFd);
-    return peer;
+    if (peerFd == -1) throw ClosedSocketException();;
+    return Socket(peerFd);
 }
 
 void Socket::send(char* message, size_t length) const {
@@ -54,8 +51,7 @@ void Socket::send(char* message, size_t length) const {
 
     while (bytesSent < length) {
         s = ::send(fd, message + bytesSent, length - bytesSent, MSG_NOSIGNAL);
-        if (s == -1) throw ClosedSocketException(); /*cuando force quiteo esto se pone en -1*/
-        if (s == 0) throw ClosedSocketException();
+        if (s < 1) throw ClosedSocketException();
         bytesSent += s;
     }
 }
@@ -66,14 +62,13 @@ void Socket::receive(char* message, size_t length) const {
 
     while (bytesReceived < length) {
         s = recv(fd, message + bytesReceived, length - bytesReceived, 0);
-        if (s == -1) throw ClosedSocketException(); /*cuando force quiteo esto se pone en -1*/
-        if (s == 0) throw ClosedSocketException();
+        if (s < 1) throw ClosedSocketException();
         bytesReceived += s;
     }
 }
 
 void Socket::maxListen(int max) const {
-    listen(fd, 20);
+    listen(fd, max);
 }
 
 Socket::~Socket() {
@@ -82,12 +77,12 @@ Socket::~Socket() {
 
 Socket::Socket(Socket&& srcSocket) noexcept {
     fd = srcSocket.fd;
-    srcSocket.fd = -1; /*le robo el fd y le dejo uno inutil*/
+    srcSocket.fd = -1;
 }
 
 Socket& Socket::operator=(Socket&& srcSocket) noexcept {
     fd = srcSocket.fd;
-    srcSocket.fd = -1; /*le robo el fd y le dejo uno inutil*/
+    srcSocket.fd = -1;
     return *this;
 }
 
