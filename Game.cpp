@@ -11,7 +11,6 @@ Game::Game(unsigned short secretNumber) : finished(false), playerTries(0) {
 }
 
 void Game::_updateStatus(unsigned char result) {
-    playerTries++;
     if (result == PERFECT_SCORE) {
         finished = true;
         ++wonGames;
@@ -37,15 +36,18 @@ void Game::_compareNumbers(unsigned char& result, std::string&& number) {
 }
 
 void Game::_verifyRepeatedDigits(std::string& strNumber) {
-    if (strNumber[0] == strNumber[1]) throw TPException(REPEATED_DIGITS);
-    if (strNumber[0] == strNumber[2]) throw TPException(REPEATED_DIGITS);
-    if (strNumber[1] == strNumber[2]) throw TPException(REPEATED_DIGITS);
+    bool repeatedDigit = strNumber[0] == strNumber[1];
+    repeatedDigit = repeatedDigit || (strNumber[0] == strNumber[2]);
+    repeatedDigit = repeatedDigit || (strNumber[1] == strNumber[2]);
+    if (repeatedDigit) throw TPException(REPEATED_DIGITS);
 }
 
 /*Por cada numero bien sumo 10, regular sumo 1, mal no sumo nada*/
 unsigned char Game::guess(unsigned short number) {
-    if ( (number < MIN_NUMBER) || (number > MAX_NUMBER) )
+    ++playerTries;
+    if ( (number < MIN_NUMBER) || (number > MAX_NUMBER) ) {
         throw TPException(INVALID_RANGE);
+    }
     std::string strNumber = std::to_string(number);
     _verifyRepeatedDigits(strNumber);
     unsigned char result = 0;
