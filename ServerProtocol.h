@@ -15,17 +15,23 @@ class ServerProtocol {
 private:
     Game game;
     std::string response;
-    bool receivingNumber;
+    bool receivingNumber, readCommand;
 public:
     explicit ServerProtocol(unsigned short secretNumber) : game(secretNumber),
-                                                    receivingNumber(false) {};
+                                receivingNumber(false), readCommand(false){};
 
     /*Recibe el buffer con el comando enviado por el cliente y lo descifra*/
-    unsigned int processCommand(const char* clientCommand);
+    void processCommand(const char* clientCommand);
+
+    /*Retorna el buffer para recibir el mensaje junto con su longitud*/
+    std::unique_ptr<char[]> commandBuffer(unsigned int& bufferLength);
 
     /*Retorna el buffer con la respuesta al request del cliente y la
      * longitud del mismo*/
     std::unique_ptr<char[]> getResponse(unsigned int& bufferSize);
+
+    /*Retorna si el protocolo recibio el mensaje del entero del cliente*/
+    bool finishedReceiving() const;
 
     /*Retorna si la comunicacion se ha dado por finalizada, que para este TP
      * es cuando el juego se termina*/

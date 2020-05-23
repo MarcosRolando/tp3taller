@@ -1,25 +1,21 @@
-//
-// Created by marcos on 20/5/20.
-//
-
 #include "ClientHandler.h"
 #include "ClosedSocketException.h"
 
 void ClientHandler::run() {
     while (!finished) {
         try {
-            unsigned int bufferSize = 1;
-            while (bufferSize != 0) {
-                std::unique_ptr<char[]> buffer(new char[bufferSize]);
-                socket.receive(buffer.get(), bufferSize);
-                bufferSize = protocol.processCommand(buffer.get());
-            }
-            std::unique_ptr<char[]> response = protocol.getResponse(bufferSize);
-            socket.send(response.get(), bufferSize);
+            unsigned int bufferLength;
+            std::unique_ptr<char[]> message;
+            do {
+                message.reset();
+                message = protocol.commandBuffer(bufferLength);
+                socket.receive(message.get(), bufferLength);
+                protocol.processCommand(message.get());
+            } while(!protocol.finishedReceiving());
+            message = protocol.getResponse(bufferLength);
+            socket.send(message.get(), bufferLength);
         } catch (ClosedSocketException& e){}
-        if (!finished)  {
-            finished = protocol.hasFinished();
-        }
+        finished = protocol.hasFinished();
     }
 }
 

@@ -14,7 +14,7 @@
                                                                     "repetidas"
 
 const char HELP_CHAR = 'h';
-const char SURRENDER_CHAR = 'q';
+const char SURRENDER_CHAR = 's';
 const char NUMBER_CHAR = 'n';
 
 const unsigned char PERFECT_SCORE = 30;
@@ -60,21 +60,34 @@ void ServerProtocol::_numberCommand(const char* clientCommand) {
     }
 }
 
+std::unique_ptr<char[]> ServerProtocol::commandBuffer(unsigned int& bufferLength) {
+    readCommand = false;
+    if (!receivingNumber) {
+        bufferLength = 1;
+        std::unique_ptr<char[]> buffer(new char[bufferLength]());
+        return buffer;
+    } else {
+        bufferLength = 2;
+        std::unique_ptr<char[]> buffer(new char[bufferLength]());
+        return buffer;
+    }
+}
 
-unsigned int ServerProtocol::processCommand(const char* clientCommand) {
-    unsigned int bytesToRead = 0;
+
+void ServerProtocol::processCommand(const char* clientCommand) {
     if (receivingNumber) {
         _numberCommand(clientCommand);
         receivingNumber = false;
+        readCommand = true;
     } else if (*clientCommand == HELP_CHAR) {
         _helpCommand();
+        readCommand = true;
     } else if (*clientCommand == SURRENDER_CHAR) {
         _surrenderCommand();
+        readCommand = true;
     } else if (*clientCommand == NUMBER_CHAR) {
-        bytesToRead = 2;
         receivingNumber = true;
     }
-    return bytesToRead;
 }
 
 std::unique_ptr<char []> ServerProtocol::getResponse(unsigned int& bufferSize) {
@@ -96,5 +109,9 @@ std::unique_ptr<char []> ServerProtocol::getResponse(unsigned int& bufferSize) {
 
 bool ServerProtocol::hasFinished() {
     return game.hasFinished();
+}
+
+bool ServerProtocol::finishedReceiving() const {
+    return readCommand;
 }
 
