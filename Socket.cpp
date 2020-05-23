@@ -1,7 +1,6 @@
 #include "Socket.h"
 #include <netdb.h>
 #include <unistd.h>
-#include "TPException.h"
 #include "OSException.h"
 
 void Socket::connect(struct addrinfo* addresses) {

@@ -26,6 +26,11 @@ public:
 
     /*Retorna si el ha terminado de comunicarse con su cliente*/
     bool hasFinished();
+private:
+    void _receive(std::unique_ptr<char[]>& message,
+                                            unsigned int& bufferLength);
+    void _send(std::unique_ptr<char[]>& message,
+                                            unsigned int& bufferLength);
 };
 
 
