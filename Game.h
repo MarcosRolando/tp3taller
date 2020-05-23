@@ -26,6 +26,9 @@ public:
 
     /*Retorna si el juego ha o no terminado*/
     bool hasFinished() const;
+
+    /*Muestra por stdout los resultados de las partidas*/
+    static void showResults();
 private:
     void _updateStatus(unsigned char result);
     void _compareNumbers(unsigned char& result, std::string&& number);

@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "TPException.h"
+#include <iostream>
 
 #define INVALID_RANGE "Rango invalido"
 #define REPEATED_DIGITS "Digitos repetidos"
@@ -72,3 +73,8 @@ void Game::surrender() {
 /*Se inicializan las variables estaticas*/
 std::atomic<unsigned int> Game::wonGames{0};
 std::atomic<unsigned int> Game::lostGames{0};
+
+void Game::showResults() {
+    std::cout << "Estadísticas:\n\tGanadores: " << wonGames;
+    std::cout << "\n\tPerdedores: " << lostGames << std::endl;
+}

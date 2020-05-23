@@ -9,9 +9,9 @@ struct addrinfo* Client::_getAddresses() {
     struct addrinfo hints{}, *result;
     int s; /*Para verificar errores*/
     memset(&hints, 0, sizeof(struct addrinfo));
-    hints.ai_family = AF_INET;       /* IPv4 (or AF_INET6 for IPv6)     */
-    hints.ai_socktype = SOCK_STREAM; /* TCP  (or SOCK_DGRAM for UDP)    */
-    hints.ai_flags = 0;              /* None (or AI_PASSIVE for server) */
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_flags = 0;
     s = getaddrinfo(host.c_str(), port.c_str(), &hints, &result);
     if (s != 0) throw OSException("Error in getaddrinfo: %s", gai_strerror(s));
     return result;
