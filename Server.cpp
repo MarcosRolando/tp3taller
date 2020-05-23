@@ -10,7 +10,7 @@
 #include "ServerMonitor.h"
 #include "ClosedSocketException.h"
 
-const int MAX_LISTENERS = 1;
+const int MAX_LISTENERS = 10;
 
 struct addrinfo* Server::_getAddresses() {
     struct addrinfo hints{}, *result;
