@@ -11,6 +11,8 @@
 #include <atomic>
 #include <vector>
 #include "server_ClientHandler.h"
+#include <memory>
+#include <utility>
 
 class Server {
 private:

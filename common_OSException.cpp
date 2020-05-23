@@ -6,6 +6,7 @@
 
 OSException::OSException(const char *fmt, ...) noexcept {
     _errno = errno;
+    memset(errorMsg, 0, BUF_LEN);
     va_list args;
     va_start(args, fmt);
     int s = vsnprintf(errorMsg, BUF_LEN, fmt, args);

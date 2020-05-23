@@ -2,6 +2,7 @@
 #include "common_TPException.h"
 #include <iostream>
 #include <string>
+#include <utility>
 
 #define INVALID_RANGE "Rango invalido"
 #define REPEATED_DIGITS "Digitos repetidos"

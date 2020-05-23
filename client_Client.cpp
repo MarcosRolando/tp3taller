@@ -5,6 +5,8 @@
 #include "common_TPException.h"
 #include "common_OSException.h"
 #include <string>
+#include <memory>
+#include <utility>
 
 struct addrinfo* Client::_getAddresses() {
     struct addrinfo hints{}, *result;

@@ -3,6 +3,7 @@
 #include <arpa/inet.h>
 #include "common_GameProtocolConstants.h"
 #include <string>
+#include <utility>
 
 #define HELP_COMMAND "AYUDA"
 #define SURRENDER_COMMAND "RENDIRSE"

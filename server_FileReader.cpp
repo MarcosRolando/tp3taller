@@ -1,6 +1,7 @@
 #include "server_FileReader.h"
 #include "common_TPException.h"
 #include <string>
+#include <utility>
 
 #define OUT_OF_RANGE "Error: archivo con números fuera de rango"
 #define BAD_FORMAT "Error: el archivo debe contener numeros unicamente"

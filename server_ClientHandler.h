@@ -10,6 +10,8 @@
 #include "server_ServerProtocol.h"
 #include "common_Socket.h"
 #include "common_Thread.h"
+#include <memory>
+#include <utility>
 
 class ClientHandler : public Thread {
 private:
