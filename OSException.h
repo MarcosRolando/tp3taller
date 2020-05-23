@@ -4,7 +4,7 @@
 #include <exception>
 #define BUF_LEN 256
 
-class OSException : std::exception {
+class OSException : public std::exception {
 private:
     int _errno;
     char errorMsg[BUF_LEN]{};

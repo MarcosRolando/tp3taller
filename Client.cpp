@@ -55,7 +55,7 @@ void Client::connect() {
         socket.connect(addresses);
     } catch (OSException& e) {
         freeaddrinfo(addresses);
-        throw OSException("algo");
+        throw e;
     }
     freeaddrinfo(addresses);
     _processConnection();
