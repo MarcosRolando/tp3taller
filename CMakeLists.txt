@@ -5,7 +5,7 @@ add_executable(tp main.cpp Socket.cpp Socket.h ClientHandler.cpp ClientHandler.h
         ServerProtocol.cpp ServerProtocol.h TPException.cpp TPException.h
         Thread.cpp Thread.h Server.cpp Server.h FileReader.cpp FileReader.h Client.cpp
         Client.h ClientProtocol.cpp ClientProtocol.h User.cpp User.h
-        ClosedSocketException.h ServerMonitor.cpp ServerMonitor.h)
+        OSException.h ServerMonitor.cpp ServerMonitor.h OSException.cpp)
 
 target_compile_options (tp PRIVATE -std=c++11 -Wall -Werror -pedantic -pedantic-errors
         -O0 -ggdb -DDEBUG -fno-inline)

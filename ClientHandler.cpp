@@ -1,5 +1,5 @@
 #include "ClientHandler.h"
-#include "ClosedSocketException.h"
+#include "OSException.h"
 
 void ClientHandler::run() {
     while (!finished) {
@@ -14,7 +14,7 @@ void ClientHandler::run() {
             } while(!protocol.finishedReceiving());
             message = protocol.getResponse(bufferLength);
             socket.send(message.get(), bufferLength);
-        } catch (ClosedSocketException& e){}
+        } catch (OSException& e){}
         finished = protocol.hasFinished();
     }
 }

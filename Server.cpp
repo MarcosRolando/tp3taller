@@ -1,6 +1,3 @@
-//
-// Created by marcos on 20/5/20.
-//
 #include <sys/socket.h>
 #include <netdb.h>
 #include <cstring>
@@ -8,23 +5,24 @@
 #include "Server.h"
 #include "ClientHandler.h"
 #include "ServerMonitor.h"
-#include "ClosedSocketException.h"
+#include "OSException.h"
 
 const int MAX_LISTENERS = 10;
 
 struct addrinfo* Server::_getAddresses() {
     struct addrinfo hints{}, *result;
-    int s; //flag por si hubo un error
+    int s; /*variable para verificar si hubo errores*/
     memset(&hints, 0, sizeof(struct addrinfo));
-    hints.ai_family = AF_INET;    /* Allow IPv4 or IPv6 */
-    hints.ai_socktype = SOCK_STREAM; /* TCP socket */
-    hints.ai_flags = AI_PASSIVE;    /* For wildcard IP address */
-    hints.ai_protocol = 0;          /* Any protocol */
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_flags = AI_PASSIVE;
+    hints.ai_protocol = 0;
     s = getaddrinfo(nullptr, port.c_str(), &hints, &result);
-    if (s != 0) throw std::exception(); //ver bien despues de mostrar el error y catchear esto etc
+    if (s != 0) throw OSException("Error in getaddrinfo: %s", gai_strerror(s));
     return result;
 }
 
+/*Funcion que le paso a remove_if para que verifique si termino el cliente*/
 bool clientHasFinished(std::unique_ptr<ClientHandler>& client) {
     if (client->hasFinished()) {
         client->join();
@@ -34,20 +32,25 @@ bool clientHasFinished(std::unique_ptr<ClientHandler>& client) {
 }
 
 void Server::_acceptConnections() {
-    std::vector<std::unique_ptr<ClientHandler>> clients;
     unsigned short secretNumber;
-    ServerMonitor monitor(*this);
-    monitor.start();
     while (!finished) {
         try {
-            Socket peer = socket.accept(); //acepto la conexion
+            Socket peer = socket.accept();
             secretNumber = file.getNextNumber();
             clients.emplace_back(new ClientHandler(std::move(peer), secretNumber));
             clients.back()->start();
             clients.erase(std::remove_if(clients.begin(), clients.end(),
                                          clientHasFinished), clients.end());
-        } catch (ClosedSocketException& e) {}
+        } catch (OSException& e) {
+            if (!finished) throw e; /*Hubo un error externo*/
+        }
     }
+}
+
+void Server::_processConnections() {
+    ServerMonitor monitor(*this);
+    monitor.start();
+    _acceptConnections();
     for (auto & client : clients) {
         client->join();
     }
@@ -61,8 +64,13 @@ void Server::forceFinish() {
 
 void Server::connect() {
     struct addrinfo* addresses = _getAddresses();
-    socket.bind(addresses);
-    freeaddrinfo(addresses); //en este punto ya logre bindear al socket
+    try {
+        socket.bind(addresses);
+    } catch (OSException& e) {
+        freeaddrinfo(addresses);
+        throw e;
+    }
+    freeaddrinfo(addresses);
     socket.maxListen(MAX_LISTENERS);
-    _acceptConnections();
+    _processConnections();
 }

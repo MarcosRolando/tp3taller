@@ -2,9 +2,7 @@
 #include <netdb.h>
 #include <unistd.h>
 #include "TPException.h"
-#include "ClosedSocketException.h"
-
-#define CONNECTION_FAILURE "No se pudo conectar"
+#include "OSException.h"
 
 void Socket::connect(struct addrinfo* addresses) {
 struct addrinfo* rp;
@@ -18,7 +16,7 @@ struct addrinfo* rp;
 
         ::close(fd);
     }
-    if (rp == nullptr) throw TPException(CONNECTION_FAILURE);
+    if (rp == nullptr) throw OSException("Could not connect. ");
 }
 
 void Socket::bind(struct addrinfo* addresses) {
@@ -36,12 +34,12 @@ void Socket::bind(struct addrinfo* addresses) {
 
         ::close(fd);
     }
-    if (rp == nullptr) throw TPException("Could not bind");
+    if (rp == nullptr) throw OSException("Could not bind. ");
 }
 
 Socket Socket::accept() const {
     int peerFd = ::accept(fd, nullptr, nullptr);
-    if (peerFd == -1) throw ClosedSocketException();;
+    if (peerFd == -1) throw OSException("Error in accept: %s\n");;
     return Socket(peerFd);
 }
 
@@ -51,7 +49,7 @@ void Socket::send(char* message, size_t length) const {
 
     while (bytesSent < length) {
         s = ::send(fd, message + bytesSent, length - bytesSent, MSG_NOSIGNAL);
-        if (s < 1) throw ClosedSocketException();
+        if (s < 1) throw OSException("Error in send: %s\n");
         bytesSent += s;
     }
 }
@@ -62,7 +60,7 @@ void Socket::receive(char* message, size_t length) const {
 
     while (bytesReceived < length) {
         s = recv(fd, message + bytesReceived, length - bytesReceived, 0);
-        if (s < 1) throw ClosedSocketException();
+        if (s < 1) throw OSException("Error in recv: %s\n");
         bytesReceived += s;
     }
 }

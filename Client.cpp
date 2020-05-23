@@ -8,7 +8,7 @@
 #include "User.h"
 #include "TPException.h"
 #include <iostream>
-#include "ClosedSocketException.h"
+#include "OSException.h"
 
 struct addrinfo* Client::_getAddresses() {
     struct addrinfo hints{}, *result;
@@ -49,7 +49,7 @@ void Client::_processConnection() {
             _receive();
         } catch (TPException& e) {
             std::cout << e.what() << std::endl; /*esto es medio sidoso, lo ideal seria meterlo en user el printeo ver bien donde lo manejo*/
-        } catch (ClosedSocketException& e) {
+        } catch (OSException& e) {
             finished = true;
         }
         if (!finished) {
@@ -62,7 +62,7 @@ void Client::connect() {
     struct addrinfo* addresses = _getAddresses();
     try {
         socket.connect(addresses);
-    } catch (TPException& e) {
+    } catch (OSException& e) {
         freeaddrinfo(addresses);
         throw e;
     }
