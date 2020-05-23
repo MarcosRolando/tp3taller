@@ -7,7 +7,7 @@ int main(int argc, char** argv) {
     std::string mode = argv[1];
     if (mode == "server") {
         try {
-            Server server("-2", "server.list");
+            Server server("8081", "server.list");
             server.connect();
         } catch (OSException& e) {
             std::cout << e.what() << std::endl;
