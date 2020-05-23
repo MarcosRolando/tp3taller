@@ -6,8 +6,9 @@
 class Socket {
 private:
     int fd; /*File Descriptor*/
+
 public:
-    Socket() : fd(-1) {};
+    Socket() : fd(-1) {}
     Socket(const Socket&) = delete; /*Borro los constructores por copia*/
     Socket operator=(const Socket&) = delete;
     Socket& operator=(Socket&&) noexcept;
@@ -34,8 +35,9 @@ public:
     /*Cierra el socket*/
     void close();
     ~Socket();
+
 private:
-    explicit Socket(int fd) : fd(fd) {};
+    explicit Socket(int fd) : fd(fd) {}
 };
 
 

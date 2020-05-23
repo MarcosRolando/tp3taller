@@ -1,5 +1,6 @@
 #include "FileReader.h"
 #include "TPException.h"
+#include <string>
 
 #define OUT_OF_RANGE "Error: archivo con números fuera de rango"
 #define BAD_FORMAT "Error: el archivo debe contener numeros unicamente"
@@ -28,7 +29,7 @@ void FileReader::_readNumbers() {
             number = std::stoi(strNumber);
             _verifyValidRange(number);
             _verifyRepeatedDigits(std::move(strNumber));
-        } catch (std::invalid_argument& e) {
+        } catch(std::invalid_argument& e) {
             throw TPException(BAD_FORMAT);
         }
         numbers.push_back(number);

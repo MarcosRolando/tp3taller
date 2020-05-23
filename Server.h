@@ -9,6 +9,7 @@
 #include "FileReader.h"
 #include <string>
 #include <atomic>
+#include <vector>
 #include "ClientHandler.h"
 
 class Server {
@@ -18,15 +19,17 @@ private:
     Socket socket;
     FileReader file;
     std::vector<std::unique_ptr<ClientHandler>>clients;
+
 public:
     Server(std::string&& port, std::string&& fileName) : finished(false),
-                            port(std::move(port)), file(std::move(fileName)) {};
+                            port(std::move(port)), file(std::move(fileName)) {}
 
     /*Levanta el servidor en el puerto pedido en el constructor*/
     void connect();
 
     /*Hace que el servidor deje de aceptar nuevos clientes*/
     void forceFinish();
+
 private:
     struct addrinfo* _getAddresses();
     void _acceptConnections();

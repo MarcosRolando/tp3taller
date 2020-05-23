@@ -6,17 +6,20 @@
 
 #include <fstream>
 #include <vector>
+#include <string>
 
 class FileReader {
 private:
     std::ifstream file;
     std::vector<unsigned int> numbers;
     std::vector<unsigned int>::iterator currentNumber;
+
 public:
     explicit FileReader(std::string&& fileName);
 
     /*Retorna el siguiente numero del archivo acorde a Round Robin*/
     unsigned int getNextNumber();
+
 private:
     void _readNumbers();
     static void _verifyRepeatedDigits(std::string&& strNumber);

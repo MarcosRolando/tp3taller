@@ -16,9 +16,10 @@ private:
     Socket socket;
     ServerProtocol protocol;
     std::atomic<bool> finished;
+
 public:
     ClientHandler(Socket&& socket, unsigned int secretNumber) :
-        socket(std::move(socket)), protocol(secretNumber), finished(false) {};
+        socket(std::move(socket)), protocol(secretNumber), finished(false) {}
 
     /*Implementa el metodo virtual run de Thread, que sera el metodo ejecutado
      * por el thread*/
@@ -26,6 +27,7 @@ public:
 
     /*Retorna si el ha terminado de comunicarse con su cliente*/
     bool hasFinished();
+
 private:
     void _receive(std::unique_ptr<char[]>& message,
                                             unsigned int& bufferLength);

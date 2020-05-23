@@ -7,7 +7,7 @@
 class OSException : public std::exception {
 private:
     int _errno;
-    char errorMsg[BUF_LEN]{};
+    char errorMsg[BUF_LEN];
 public:
     explicit OSException(const char* fmt, ...) noexcept;
     const char * what() const noexcept override;

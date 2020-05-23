@@ -13,6 +13,7 @@ private:
     std::string secretNumber;
     unsigned int playerTries;
     static std::atomic<unsigned int> wonGames, lostGames;
+
 public:
     explicit Game(unsigned int secretNumber);
 
@@ -29,6 +30,7 @@ public:
 
     /*Muestra por stdout los resultados de las partidas*/
     static void showResults();
+
 private:
     void _updateStatus(unsigned int result);
     void _compareNumbers(unsigned int& result, std::string&& number);

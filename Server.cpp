@@ -37,11 +37,12 @@ void Server::_acceptConnections() {
         try {
             Socket peer = socket.accept();
             secretNumber = file.getNextNumber();
-            clients.emplace_back(new ClientHandler(std::move(peer), secretNumber));
+            clients.emplace_back(new ClientHandler(std::move(peer),
+                                                                secretNumber));
             clients.back()->start();
-            clients.erase(std::remove_if(clients.begin(), clients.end(),
-                                         clientHasFinished), clients.end());
-        } catch (OSException& e) {
+            clients.erase(std::remove_if(clients.begin(),
+                    clients.end(), clientHasFinished), clients.end());
+        } catch(OSException& e) {
             if (!finished) throw e; /*Hubo un error externo*/
         }
     }
@@ -66,7 +67,7 @@ void Server::connect() {
     struct addrinfo* addresses = _getAddresses();
     try {
         socket.bind(addresses);
-    } catch (OSException& e) {
+    } catch(OSException& e) {
         freeaddrinfo(addresses);
         throw e;
     }

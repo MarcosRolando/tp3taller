@@ -9,6 +9,7 @@
 class Thread {
 private:
     std::thread thread;
+
 public:
     /*Ejecuta en un nuevo thread al metodo run*/
     void start();

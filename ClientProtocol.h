@@ -11,9 +11,10 @@ class ClientProtocol {
 private:
     bool readLength, readResponse, finished;
     uint32_t responseLength;
+
 public:
     ClientProtocol() : readLength(false), readResponse(false), finished(false),
-                                                        responseLength(0) {};
+                                                        responseLength(0) {}
 
     /*Recibe el comando del ususario y lo traduce acorde al protocolo*/
     static std::unique_ptr<char[]> translateCommand(std::string&& command,
@@ -31,6 +32,7 @@ public:
     /*Retorna si se termino la comunicacion con el servidor, es decir, cuando
      * se termina el juego*/
     bool hasFinished() const;
+
 private:
     static std::unique_ptr<char[]> _helpCommand(unsigned int& bufferSize);
     static std::unique_ptr<char[]> _surrenderCommand(unsigned int& bufferSize);

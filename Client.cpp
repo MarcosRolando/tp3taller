@@ -4,6 +4,7 @@
 #include "User.h"
 #include "TPException.h"
 #include "OSException.h"
+#include <string>
 
 struct addrinfo* Client::_getAddresses() {
     struct addrinfo hints{}, *result;
@@ -33,7 +34,7 @@ void Client::_receive() {
         response = protocol.responseBuffer(bufferLength);
         socket.receive(response.get(), bufferLength);
         protocol.processResponse(response);
-    } while(!protocol.finishedReceiving());
+    } while (!protocol.finishedReceiving());
     User::showMessage(response.get());
 }
 
@@ -42,7 +43,7 @@ void Client::_processConnection() {
         try {
             _send();
             _receive();
-        } catch (TPException& e) {
+        } catch(TPException& e) {
             User::showMessage(e.what());
         }
         finished = protocol.hasFinished();
@@ -53,7 +54,7 @@ void Client::connect() {
     struct addrinfo* addresses = _getAddresses();
     try {
         socket.connect(addresses);
-    } catch (OSException& e) {
+    } catch(OSException& e) {
         freeaddrinfo(addresses);
         throw e;
     }

@@ -9,12 +9,14 @@
 class ServerMonitor : public Thread {
 private:
     Server& server;
+
 public:
-    explicit ServerMonitor(Server& server) : server(server) {};
+    explicit ServerMonitor(Server& server) : server(server) {}
 
     /*Implementa la funcion run heredada de Thread, la cual para esta clase
      * correra el metodo stopOnCommand*/
     void run() override;
+
 private:
     void _stopOnCommand();
 };

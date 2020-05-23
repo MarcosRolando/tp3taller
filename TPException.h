@@ -7,9 +7,10 @@
 class TPException : public std::exception {
 private:
     std::string errorMessage;
+
 public:
     explicit TPException(std::string&& errorMessage) :
-                                    errorMessage(std::move(errorMessage)) {};
+                                    errorMessage(std::move(errorMessage)) {}
     const char* what() const noexcept override;
 };
 

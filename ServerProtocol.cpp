@@ -45,18 +45,23 @@ void ServerProtocol::_numberCommand(const char* clientCommand) {
     try {
         unsigned int score = game.guess(number);
         if (game.hasFinished()) {
-            if (score == PERFECT_SCORE) response = WON_MESSAGE;
-            else response = LOST_MESSAGE;
+            if (score == PERFECT_SCORE)
+                response = WON_MESSAGE;
+            else
+                response = LOST_MESSAGE;
         } else {
             _setGuessResult(score);
         }
-    } catch (TPException& e) {
-        if (game.hasFinished()) response = LOST_MESSAGE;
-        else response = INVALID_NUMBER_MESSAGE;
+    } catch(TPException& e) {
+        if (game.hasFinished())
+            response = LOST_MESSAGE;
+        else
+            response = INVALID_NUMBER_MESSAGE;
     }
 }
 
-std::unique_ptr<char[]> ServerProtocol::commandBuffer(unsigned int& bufferLength) {
+std::unique_ptr<char[]> ServerProtocol::commandBuffer(
+                                                unsigned int& bufferLength) {
     readCommand = false;
     if (!receivingNumber) {
         bufferLength = 1;

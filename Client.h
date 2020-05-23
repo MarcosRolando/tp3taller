@@ -14,12 +14,14 @@ private:
     Socket socket;
     ClientProtocol protocol;
     bool finished;
+
 public:
     Client(std::string&& host, std::string&& port) : host(host), port(port),
-                                                            finished(false) {};
+                                                            finished(false) {}
 
     /*Levanta el cliente en el host y puerto especificados en el constructor*/
     void connect();
+
 private:
     void _send();
     void _receive();

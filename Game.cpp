@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "TPException.h"
 #include <iostream>
+#include <string>
 
 #define INVALID_RANGE "Rango invalido"
 #define REPEATED_DIGITS "Digitos repetidos"
@@ -29,8 +30,10 @@ void Game::_compareNumbers(unsigned int& result, std::string&& number) {
         for (auto & digitN : number) {
             ++j;
             if (digitN == digitSN) {
-                if (i == j) result += 10;
-                else ++result;
+                if (i == j)
+                    result += 10;
+                else
+                    ++result;
             }
         }
     }
@@ -71,8 +74,8 @@ void Game::surrender() {
 }
 
 /*Se inicializan las variables estaticas*/
-std::atomic<unsigned int> Game::wonGames{0};
-std::atomic<unsigned int> Game::lostGames{0};
+std::atomic<unsigned int> Game::wonGames(0);
+std::atomic<unsigned int> Game::lostGames(0);
 
 void Game::showResults() {
     std::cout << "Estadísticas:\n\tGanadores: " << wonGames;

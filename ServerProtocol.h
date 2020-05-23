@@ -1,7 +1,3 @@
-//
-// Created by marcos on 20/5/20.
-//
-
 #ifndef TP3TALLER_SERVERPROTOCOL_H
 #define TP3TALLER_SERVERPROTOCOL_H
 
@@ -10,15 +6,17 @@
 
 #include "Game.h"
 #include <memory>
+#include <string>
 
 class ServerProtocol {
 private:
     Game game;
     std::string response;
     bool receivingNumber, readCommand;
+
 public:
     explicit ServerProtocol(unsigned int secretNumber) : game(secretNumber),
-                                receivingNumber(false), readCommand(false){};
+                                receivingNumber(false), readCommand(false){}
 
     /*Recibe el buffer con el comando enviado por el cliente y lo descifra*/
     void processCommand(const char* clientCommand);
@@ -36,6 +34,7 @@ public:
     /*Retorna si la comunicacion se ha dado por finalizada, que para este TP
      * es cuando el juego se termina*/
     bool hasFinished();
+
 private:
     void _helpCommand();
     void _surrenderCommand();
