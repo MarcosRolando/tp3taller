@@ -39,7 +39,7 @@ void Socket::bind(struct addrinfo* addresses) {
 Socket Socket::accept() const {
     int peerFd = ::accept(fd, nullptr, nullptr);
     if (peerFd == -1) {
-        throw OSException("Error in accept: %s\n");;
+        throw OSException("Error in accept: ");;
     }
     return Socket(peerFd);
 }
