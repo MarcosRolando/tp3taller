@@ -53,7 +53,7 @@ std::unique_ptr<char []> ClientProtocol::translateCommand(std::string&& command,
     } else {
         try {
             return _numberCommand(std::move(command), bufferSize);
-        } catch(std::invalid_argument& e) { /*Por si recibo texto invalido*/
+        } catch(std::exception& e) { /*Por si stoi tira exception*/
             throw TPException(INVALID_COMMAND_MESSAGE);
         }
     }
