@@ -12,7 +12,7 @@ private:
 
 public:
     /*Ejecuta en un nuevo thread al metodo run*/
-    void start();
+    void operator()();
 
     /*Joinea el thread*/
     void join();

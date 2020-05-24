@@ -39,7 +39,7 @@ void Socket::bind(struct addrinfo* addresses) {
 Socket Socket::accept() const {
     int peerFd = ::accept(fd, nullptr, nullptr);
     if (peerFd == -1) {
-        throw OSException("Error in accept: ");;
+        throw OSException("Error in accept: ");
     }
     return Socket(peerFd);
 }
@@ -50,7 +50,7 @@ void Socket::send(char* message, size_t length) const {
 
     while (bytesSent < length) {
         s = ::send(fd, message + bytesSent, length - bytesSent, MSG_NOSIGNAL);
-        if (s < 1) throw OSException("Error in send: %s\n");
+        if (s < 1) throw OSException("Error in send: ");
         bytesSent += s;
     }
 }
@@ -61,7 +61,7 @@ void Socket::receive(char* message, size_t length) const {
 
     while (bytesReceived < length) {
         s = recv(fd, message + bytesReceived, length - bytesReceived, 0);
-        if (s < 1) throw OSException("Error in recv: %s\n");
+        if (s < 1) throw OSException("Error in recv: ");
         bytesReceived += s;
     }
 }

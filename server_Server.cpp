@@ -39,7 +39,7 @@ void Server::_acceptConnections() {
             secretNumber = file.getNextNumber();
             clients.emplace_back(new ClientHandler(std::move(peer),
                                                                 secretNumber));
-            clients.back()->start();
+            (*clients.back())();
             clients.erase(std::remove_if(clients.begin(),
                     clients.end(), clientHasFinished), clients.end());
         } catch(OSException& e) {
@@ -50,7 +50,7 @@ void Server::_acceptConnections() {
 
 void Server::_processConnections() {
     ServerMonitor monitor(*this);
-    monitor.start();
+    monitor();
     _acceptConnections();
     for (auto & client : clients) {
         client->join();

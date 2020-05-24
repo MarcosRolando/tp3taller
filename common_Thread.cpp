@@ -1,6 +1,6 @@
 #include "common_Thread.h"
 
-void Thread::start() {
+void Thread::operator()() {
     thread = std::thread(&Thread::run, this);
 }
 
