@@ -17,6 +17,7 @@ public:
     /*Joinea el thread*/
     void join();
 
+protected:
     /*Metodo abstracto, las clases hijas deben implementarlo*/
     virtual void run() = 0;
 };

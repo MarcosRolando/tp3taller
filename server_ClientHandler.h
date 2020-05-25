@@ -25,14 +25,14 @@ public:
     ClientHandler(const ClientHandler&) = delete;
     ClientHandler operator=(const ClientHandler&) = delete;
 
-    /*Implementa el metodo virtual run de Thread, que sera el metodo ejecutado
-     * por el thread*/
-    void run() override;
-
     /*Retorna si el ha terminado de comunicarse con su cliente*/
     bool hasFinished();
 
 private:
+    /*Implementa el metodo virtual run de Thread, que sera el metodo ejecutado
+    * por el thread*/
+    void run() override;
+
     void _receive(std::vector<char>& message,
                                             unsigned int& bufferLength);
     void _send(std::vector<char>& message,
