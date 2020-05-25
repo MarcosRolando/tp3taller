@@ -1,19 +1,9 @@
-####Alumno: Marcos Daniel Rolando
-
-
-####Padrón: 102323
-
-
-####[Repositorio de Github](https://github.com/MarcosRolando/tp3taller)
-
-
-#Taller de Programacion 1
-
-
-#TP3 Adivina el Numero
-
-
-###Disenio general
+#### Alumno: Marcos Daniel Rolando
+#### Padrón: 102323
+#### [Repositorio de Github](https://github.com/MarcosRolando/tp3taller)
+# Taller de Programacion 1
+# TP3 Adivina el Numero
+### Disenio general
 
 La solucion desarrollada para el enunciado del trabajo practico en 
 cuestion consta de dos secciones bien diferenciadas, por un lado 
