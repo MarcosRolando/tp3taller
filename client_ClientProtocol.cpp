@@ -22,7 +22,7 @@ std::vector<char> ClientProtocol::_helpCommand(unsigned int& bufferLength) {
 }
 
 std::vector<char> ClientProtocol::_surrenderCommand(
-                                                    unsigned int& bufferLength) {
+                                                    unsigned int& bufferLength){
     bufferLength = 1;
     std::vector<char> buffer(bufferLength);
     buffer[0] = SURRENDER_CHAR;
@@ -30,7 +30,7 @@ std::vector<char> ClientProtocol::_surrenderCommand(
 }
 
 std::vector<char> ClientProtocol::_numberCommand(std::string&& command,
-                                                    unsigned int& bufferLength) {
+                                                    unsigned int& bufferLength){
     bufferLength = 3;
     std::vector<char> buffer(bufferLength);
     buffer[0] = NUMBER_CHAR;
@@ -46,7 +46,7 @@ std::vector<char> ClientProtocol::_numberCommand(std::string&& command,
 }
 
 std::vector<char> ClientProtocol::translateCommand(std::string&& command,
-                                                    unsigned int& bufferLength) {
+                                                    unsigned int& bufferLength){
     if (command == HELP_COMMAND) {
         return _helpCommand(bufferLength);
     } else if (command == SURRENDER_COMMAND) {

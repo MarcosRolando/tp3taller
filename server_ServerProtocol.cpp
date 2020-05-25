@@ -91,7 +91,7 @@ void ServerProtocol::processCommand(const char* clientCommand) {
     }
 }
 
-std::vector<char> ServerProtocol::getResponse(unsigned int& bufferLength) const {
+std::vector<char> ServerProtocol::getResponse(unsigned int& bufferLength) const{
     uint32_t msgLength = response.length();
     bufferLength = msgLength + 4;
     std::vector<char> responseMsg(bufferLength);
