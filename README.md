@@ -34,7 +34,12 @@ del programa para dar una idea de la estructura del mismo.
 
                                         Diagrama de clases del Servidor
 
+  
+  
+  
+  
 ![Diagrama de clases del Cliente](/images/client_class_diagram.jpeg)
 
+                                        Diagrama de clases del Cliente
 
     
