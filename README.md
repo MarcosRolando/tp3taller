@@ -74,4 +74,4 @@ presentan un par de diagramas de secuencia del programa.
 
 ![Diagrama de secuencia de conxeion del Server](/images/server_sequence_diagram.jpeg)
 
-             Diagrama de secuencia de conexion del Server
+                     Diagrama de secuencia de conexion del Server
