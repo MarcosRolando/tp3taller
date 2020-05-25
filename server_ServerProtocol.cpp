@@ -91,10 +91,10 @@ void ServerProtocol::processCommand(const char* clientCommand) {
     }
 }
 
-std::vector<char> ServerProtocol::getResponse(unsigned int& bufferSize) {
+std::vector<char> ServerProtocol::getResponse(unsigned int& bufferLength) {
     uint32_t msgLength = response.length();
-    bufferSize = msgLength + 4;
-    std::vector<char> responseMsg(bufferSize);
+    bufferLength = msgLength + 4;
+    std::vector<char> responseMsg(bufferLength);
     msgLength = htonl(msgLength);
     for (int i = 0; i < 4; ++i) {
         responseMsg[i] = *(reinterpret_cast<char*>(&msgLength) + i);

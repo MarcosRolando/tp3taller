@@ -14,25 +14,25 @@
 const unsigned int maxNumber = 65535; /*Maximo numero sin signo que */
                                      /*representable en 2 bytes*/
 
-std::vector<char> ClientProtocol::_helpCommand(unsigned int& bufferSize) {
-    bufferSize = 1;
-    std::vector<char> buffer(bufferSize);
+std::vector<char> ClientProtocol::_helpCommand(unsigned int& bufferLength) {
+    bufferLength = 1;
+    std::vector<char> buffer(bufferLength);
     buffer[0] = HELP_CHAR;
     return buffer;
 }
 
 std::vector<char> ClientProtocol::_surrenderCommand(
-                                                    unsigned int& bufferSize) {
-    bufferSize = 1;
-    std::vector<char> buffer(bufferSize);
+                                                    unsigned int& bufferLength) {
+    bufferLength = 1;
+    std::vector<char> buffer(bufferLength);
     buffer[0] = SURRENDER_CHAR;
     return buffer;
 }
 
 std::vector<char> ClientProtocol::_numberCommand(std::string&& command,
-                                                    unsigned int& bufferSize) {
-    bufferSize = 3;
-    std::vector<char> buffer(bufferSize);
+                                                    unsigned int& bufferLength) {
+    bufferLength = 3;
+    std::vector<char> buffer(bufferLength);
     buffer[0] = NUMBER_CHAR;
     unsigned int conversionNumber = std::stoi(command);
     if (conversionNumber > maxNumber)
@@ -46,14 +46,14 @@ std::vector<char> ClientProtocol::_numberCommand(std::string&& command,
 }
 
 std::vector<char> ClientProtocol::translateCommand(std::string&& command,
-                                                    unsigned int& bufferSize) {
+                                                    unsigned int& bufferLength) {
     if (command == HELP_COMMAND) {
-        return _helpCommand(bufferSize);
+        return _helpCommand(bufferLength);
     } else if (command == SURRENDER_COMMAND) {
-        return _surrenderCommand(bufferSize);
+        return _surrenderCommand(bufferLength);
     } else {
         try {
-            return _numberCommand(std::move(command), bufferSize);
+            return _numberCommand(std::move(command), bufferLength);
         } catch(std::exception& e) { /*Por si stoi tira exception*/
             throw TPException(INVALID_COMMAND_MESSAGE);
         }

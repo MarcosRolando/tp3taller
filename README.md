@@ -30,4 +30,6 @@ se intercambiara la informacion con el servidor como corresponda.
 A continuacion se muestra un diagrama con las clases mas importantes
 del programa para dar una idea de la estructura del mismo.
 
+![Diagrama de clases del Servidor](/images/server_class_diagram.jpeg)
+
     

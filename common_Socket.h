@@ -27,7 +27,7 @@ public:
     void maxListen(int max) const;
 
     /*Envia el mensaje*/
-    void send(char* message, size_t length) const;
+    void send(const char* message, size_t length) const;
 
     /*Recibe el mensaje*/
     void receive(char* message, size_t length) const;

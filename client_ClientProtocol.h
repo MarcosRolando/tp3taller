@@ -18,7 +18,7 @@ public:
 
     /*Recibe el comando del ususario y lo traduce acorde al protocolo*/
     static std::vector<char> translateCommand(std::string&& command,
-                                                    unsigned int& bufferSize);
+                                                    unsigned int& bufferLength);
 
     /*Retorna si termino de recibir la respuesta del servidor*/
     bool finishedReceiving() const;
@@ -34,10 +34,10 @@ public:
     bool hasFinished() const;
 
 private:
-    static std::vector<char> _helpCommand(unsigned int& bufferSize);
-    static std::vector<char> _surrenderCommand(unsigned int& bufferSize);
+    static std::vector<char> _helpCommand(unsigned int& bufferLength);
+    static std::vector<char> _surrenderCommand(unsigned int& bufferLength);
     static std::vector<char> _numberCommand(std::string&& command,
-                                                    unsigned int& bufferSize);
+                                                    unsigned int& bufferLength);
 };
 
 #endif //TP3TALLER_CLIENT_CLIENTPROTOCOL_H

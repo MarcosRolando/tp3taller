@@ -26,7 +26,7 @@ public:
 
     /*Retorna el buffer con la respuesta al request del cliente y la
      * longitud del mismo*/
-    std::vector<char> getResponse(unsigned int& bufferSize);
+    std::vector<char> getResponse(unsigned int& bufferLength);
 
     /*Retorna si el protocolo recibio el mensaje del entero del cliente*/
     bool finishedReceiving() const;

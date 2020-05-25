@@ -50,7 +50,7 @@ Socket Socket::accept() const {
     return Socket(peerFd);
 }
 
-void Socket::send(char* message, size_t length) const {
+void Socket::send(const char* message, size_t length) const {
     size_t bytesSent = 0;
     int s = 0;
 
