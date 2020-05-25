@@ -3,6 +3,12 @@
 #include <unistd.h>
 #include "common_OSException.h"
 
+#define CONNECT_ERROR_MSG "Could not connect. "
+#define BIND_ERROR_MSG "Could not bind. "
+#define ACCEPT_ERROR_MSG "Error in accept: "
+#define SEND_ERROR_MSG "Error in send: "
+#define RECV_ERROR_MSG "Error in recv: "
+
 void Socket::connect(struct addrinfo* addresses) {
 struct addrinfo* rp;
     for (rp = addresses; rp != nullptr; rp = rp->ai_next) {
@@ -15,7 +21,7 @@ struct addrinfo* rp;
 
         ::close(fd);
     }
-    if (rp == nullptr) throw OSException("Could not connect. ");
+    if (rp == nullptr) throw OSException(CONNECT_ERROR_MSG);
 }
 
 void Socket::bind(struct addrinfo* addresses) {
@@ -33,13 +39,13 @@ void Socket::bind(struct addrinfo* addresses) {
 
         ::close(fd);
     }
-    if (rp == nullptr) throw OSException("Could not bind. ");
+    if (rp == nullptr) throw OSException(BIND_ERROR_MSG);
 }
 
 Socket Socket::accept() const {
     int peerFd = ::accept(fd, nullptr, nullptr);
     if (peerFd == -1) {
-        throw OSException("Error in accept: ");
+        throw OSException(ACCEPT_ERROR_MSG);
     }
     return Socket(peerFd);
 }
@@ -50,7 +56,7 @@ void Socket::send(char* message, size_t length) const {
 
     while (bytesSent < length) {
         s = ::send(fd, message + bytesSent, length - bytesSent, MSG_NOSIGNAL);
-        if (s < 1) throw OSException("Error in send: ");
+        if (s < 1) throw OSException(SEND_ERROR_MSG);
         bytesSent += s;
     }
 }
@@ -61,7 +67,7 @@ void Socket::receive(char* message, size_t length) const {
 
     while (bytesReceived < length) {
         s = recv(fd, message + bytesReceived, length - bytesReceived, 0);
-        if (s < 1) throw OSException("Error in recv: ");
+        if (s < 1) throw OSException(RECV_ERROR_MSG);
         bytesReceived += s;
     }
 }

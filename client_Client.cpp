@@ -8,6 +8,8 @@
 #include <vector>
 #include <utility>
 
+#define GETADDRINFO_ERROR_MSG "Error in getaddrinfo: %s"
+
 struct addrinfo* Client::_getAddresses() {
     struct addrinfo hints{}, *result;
     int s; /*Para verificar errores*/
@@ -16,7 +18,7 @@ struct addrinfo* Client::_getAddresses() {
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_flags = 0;
     s = getaddrinfo(host.c_str(), port.c_str(), &hints, &result);
-    if (s != 0) throw OSException("Error in getaddrinfo: %s", gai_strerror(s));
+    if (s != 0) throw OSException(GETADDRINFO_ERROR_MSG, gai_strerror(s));
     return result;
 }
 

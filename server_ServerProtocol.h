@@ -33,7 +33,7 @@ public:
 
     /*Retorna si la comunicacion se ha dado por finalizada, que para este TP
      * es cuando el juego se termina*/
-    bool hasFinished();
+    bool hasFinished() const;
 
 private:
     void _helpCommand();

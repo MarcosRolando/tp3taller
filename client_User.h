@@ -5,7 +5,6 @@
  * stdin*/
 
 #include <string>
-#include <memory>
 
 class User {
 public:

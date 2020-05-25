@@ -7,6 +7,8 @@
 #include "server_ServerMonitor.h"
 #include "common_OSException.h"
 
+#define GETADDRINFO_ERROR_MSG "Error in getaddrinfo: %s"
+
 const int MAX_LISTENERS = 10;
 
 struct addrinfo* Server::_getAddresses() {
@@ -18,7 +20,7 @@ struct addrinfo* Server::_getAddresses() {
     hints.ai_flags = AI_PASSIVE;
     hints.ai_protocol = 0;
     s = getaddrinfo(nullptr, port.c_str(), &hints, &result);
-    if (s != 0) throw OSException("Error in getaddrinfo: %s", gai_strerror(s));
+    if (s != 0) throw OSException(GETADDRINFO_ERROR_MSG, gai_strerror(s));
     return result;
 }
 

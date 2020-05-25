@@ -1,6 +1,8 @@
 #ifndef TP3TALLER_COMMON_OSEXCEPTION_H
 #define TP3TALLER_COMMON_OSEXCEPTION_H
 
+/*Esta clase maneja los posibles errores en getaddrinfo y el socket*/
+
 #include <exception>
 #define BUF_LEN 256
 

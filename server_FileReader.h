@@ -23,7 +23,7 @@ public:
 private:
     void _readNumbers();
     static void _verifyRepeatedDigits(std::string&& strNumber);
-    void _verifyValidRange(unsigned int number);
+    static void _verifyValidRange(unsigned int number);
 };
 
 

@@ -1,6 +1,5 @@
 #include "server_ClientHandler.h"
 #include "common_OSException.h"
-#include <memory>
 
 void ClientHandler::run() {
     while (!finished) {

@@ -25,6 +25,8 @@ private:
 public:
     Server(std::string&& port, std::string&& fileName) : finished(false),
                             port(std::move(port)), file(std::move(fileName)) {}
+    Server(const Server&) = delete; /*Borro los constructores por copia*/
+    Server operator=(const Server&) = delete;
 
     /*Levanta el servidor en el puerto pedido en el constructor*/
     void connect();

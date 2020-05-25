@@ -95,7 +95,6 @@ std::vector<char> ServerProtocol::getResponse(unsigned int& bufferSize) {
     uint32_t msgLength = response.length();
     bufferSize = msgLength + 4;
     std::vector<char> responseMsg(bufferSize);
-    memset(responseMsg.data(), 0, bufferSize);
     msgLength = htonl(msgLength);
     for (int i = 0; i < 4; ++i) {
         responseMsg[i] = *(reinterpret_cast<char*>(&msgLength) + i);
@@ -108,7 +107,7 @@ std::vector<char> ServerProtocol::getResponse(unsigned int& bufferSize) {
     return responseMsg;
 }
 
-bool ServerProtocol::hasFinished() {
+bool ServerProtocol::hasFinished() const {
     return game.hasFinished();
 }
 

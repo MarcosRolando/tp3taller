@@ -18,6 +18,8 @@ private:
 public:
     Client(std::string&& host, std::string&& port) : host(host), port(port),
                                                             finished(false) {}
+    Client(const Client&) = delete; /*Borro los constructores por copia*/
+    Client operator=(const Client&) = delete;
 
     /*Levanta el cliente en el host y puerto especificados en el constructor*/
     void connect();
