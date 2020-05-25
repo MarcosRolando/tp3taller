@@ -31,7 +31,7 @@ void ClientHandler::_send(std::vector<char>& message,
     socket.send(message.data(), bufferLength);
 }
 
-bool ClientHandler::hasFinished() {
+bool ClientHandler::hasFinished() const {
     return finished;
 }
 

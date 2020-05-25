@@ -10,7 +10,7 @@
 
 #define GETADDRINFO_ERROR_MSG "Error in getaddrinfo: %s"
 
-struct addrinfo* Client::_getAddresses() {
+struct addrinfo* Client::_getAddresses() const {
     struct addrinfo hints{}, *result;
     int s; /*Para verificar errores*/
     memset(&hints, 0, sizeof(struct addrinfo));
@@ -22,7 +22,7 @@ struct addrinfo* Client::_getAddresses() {
     return result;
 }
 
-void Client::_send() {
+void Client::_send() const {
     std::string command = User::getInput();
     unsigned int bufferLength;
     std::vector<char> buffer = ClientProtocol::translateCommand(

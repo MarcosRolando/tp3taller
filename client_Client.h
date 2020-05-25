@@ -25,9 +25,9 @@ public:
     void connect();
 
 private:
-    void _send();
+    void _send() const;
     void _receive();
-    struct addrinfo* _getAddresses();
+    struct addrinfo* _getAddresses() const;
     void _processConnection();
 };
 
