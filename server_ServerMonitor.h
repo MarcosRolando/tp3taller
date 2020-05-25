@@ -4,7 +4,7 @@
 /*Esta clase es la que chequea cuando cerrar el server*/
 
 #include "server_Server.h"
-#include "common_Thread.h"
+#include "server_Thread.h"
 
 class ServerMonitor : public Thread {
 private:

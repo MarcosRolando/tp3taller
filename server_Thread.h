@@ -1,5 +1,5 @@
-#ifndef TP3TALLER_COMMON_THREAD_H
-#define TP3TALLER_COMMON_THREAD_H
+#ifndef TP3TALLER_SERVER_THREAD_H
+#define TP3TALLER_SERVER_THREAD_H
 
 /*Esta clase es abstracta, las clases que heredan de ella pueden correr el
  * metodo run en un thread nuevo*/
@@ -23,4 +23,4 @@ protected:
 };
 
 
-#endif //TP3TALLER_COMMON_THREAD_H
+#endif //TP3TALLER_SERVER_THREAD_H
