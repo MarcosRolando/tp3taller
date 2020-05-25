@@ -11,7 +11,7 @@
 
 const int MAX_LISTENERS = 10;
 
-struct addrinfo* Server::_getAddresses() {
+struct addrinfo* Server::_getAddresses() const {
     struct addrinfo hints{}, *result;
     int s; /*variable para verificar si hubo errores*/
     memset(&hints, 0, sizeof(struct addrinfo));

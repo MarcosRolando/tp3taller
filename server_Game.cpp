@@ -23,7 +23,7 @@ void Game::_updateStatus(unsigned int result) {
     }
 }
 
-void Game::_compareNumbers(unsigned int& result, std::string&& number) {
+void Game::_compareNumbers(unsigned int& result, std::string&& number) const {
     unsigned int i = 0, j;
     for (auto & digitSN : secretNumber) {
         ++i;

@@ -35,7 +35,7 @@ public:
     void forceFinish();
 
 private:
-    struct addrinfo* _getAddresses();
+    struct addrinfo* _getAddresses() const;
     void _acceptConnections();
     void _processConnections();
 };

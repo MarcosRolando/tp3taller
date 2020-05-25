@@ -33,7 +33,7 @@ public:
 
 private:
     void _updateStatus(unsigned int result);
-    void _compareNumbers(unsigned int& result, std::string&& number);
+    void _compareNumbers(unsigned int& result, std::string&& number) const;
     void _verifyRepeatedDigits(std::string& strNumber);
 };
 

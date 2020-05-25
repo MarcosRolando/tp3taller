@@ -18,7 +18,7 @@ private:
     * correra el metodo stopOnCommand*/
     void run() override;
 
-    void _stopOnCommand();
+    void _stopOnCommand() const;
 };
 
 
