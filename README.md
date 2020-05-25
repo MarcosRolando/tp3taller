@@ -34,10 +34,36 @@ del programa para dar una idea de la estructura del mismo.
 
                                         Diagrama de clases del Servidor  
   
+Como se puede ver en el diagrama, la clase Server es el nexo del
+_Server side_ y manejara el flujo principal del programa. La clase File
+Reader se encarga de leer el archivo con los numeros y retornarlos en
+formato Round Robin cada vez que se le pida el siguiente numero.
+El Socket engloba la logica de conexion, envio y recepcion de mensajes. 
+El ClientHandler maneja la comunicacion de un cliente particular mientras
+que ServerProtocol se encarga de traducir los mensajes al protocolo
+correspondiente, haciendo de traductor para la clase Game la cual maneja
+la logica del juego en si. Por ultimo, el ServerMonitor se encarga de
+_monitorear_ el input por entrada estandar para avisarle al server cuando
+deba dejar de aceptar conexiones de nuevos clientes.   
+  
 ![Diagrama de clases del Cliente](/images/client_class_diagram.jpeg)
 
                           Diagrama de clases del Cliente
 
+Por el lado del cliente, la clase Client es analoga en funcion a lo que 
+es la clase Server, siendo el nexo del _Client side_. Nuevamente la logica
+de conexion, envio y recepcion de mensajes se encapsula en el Socket.
+La clase User es la encargada de leer el input del usuario por entrada 
+estandar mientras que la clase ClientProtocol se encargara de validar y
+traducir dicho input (nuevamente, es analoga en funcion para el 
+_Client side_ a lo que es ServerProtocol para el _Server side_). 
+
 ![Diagrama de clases del Thread](/images/thread_class_diagram.jpeg)
     
              Diagrama de clases del Thread
+  
+Este pequenio diagrama representa la relacion de **herencia** de las
+clases ServerMonitor y ClientHandler con la clase Thread. Dicha clase
+Thread se constituye por un metodo virtual _run_ el cual debera ser definido
+por las clases hijas; dicho metodo sera el ejecutado cuando se invoque
+a un nuevo _thread-process_ mediante el **operator()**.
