@@ -27,7 +27,7 @@ cliente en la IP y puerto especificados por el usuario y, una vez
 establecida la conexion, se validaran los comandos del usuario y
 se intercambiara la informacion con el servidor como corresponda.  
 
-A continuacion se muestra un diagrama con las clases mas importantes
+A continuacion se muestran unos diagramas con las clases mas importantes
 del programa para dar una idea de la estructura del mismo.
 
 ![Diagrama de clases del Servidor](/images/server_class_diagram.jpeg)
@@ -67,3 +67,7 @@ clases ServerMonitor y ClientHandler con la clase Thread. Dicha clase
 Thread se constituye por un metodo virtual _run_ el cual debera ser definido
 por las clases hijas; dicho metodo sera el ejecutado cuando se invoque
 a un nuevo _thread-process_ mediante el **operator()**.
+
+Habiendo explicado en lineas generales el desarrollo del trabajo practico
+para dar una idea conceptual del mismo y comprender su estructura, se 
+presentan un par de diagramas de secuencia del programa.
