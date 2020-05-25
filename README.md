@@ -78,4 +78,4 @@ presentan un par de diagramas de secuencia del programa.
                      
 ![Diagrama de secuencia de ejecucion del comando numero del Cliente](/images/number_command_sequence_diagram.jpeg)
 
-        Diagrama de secuencia de ejecucion del comando numero del Cliente
+                   Diagrama de secuencia de ejecucion del comando numero del Cliente
