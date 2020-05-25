@@ -5,7 +5,7 @@
 #include "common_TPException.h"
 #include "common_OSException.h"
 #include <string>
-#include <memory>
+#include <vector>
 #include <utility>
 
 struct addrinfo* Client::_getAddresses() {
@@ -23,21 +23,20 @@ struct addrinfo* Client::_getAddresses() {
 void Client::_send() {
     std::string command = User::getInput();
     unsigned int bufferLength;
-    std::unique_ptr<char[]> buffer = ClientProtocol::translateCommand(
+    std::vector<char> buffer = ClientProtocol::translateCommand(
                                             std::move(command), bufferLength);
-    socket.send(buffer.get(), bufferLength);
+    socket.send(buffer.data(), bufferLength);
 }
 
 void Client::_receive() {
     unsigned int bufferLength;
-    std::unique_ptr<char[]> response;
+    std::vector<char> response;
     do {
-        response.reset();
         response = protocol.responseBuffer(bufferLength);
-        socket.receive(response.get(), bufferLength);
+        socket.receive(response.data(), bufferLength);
         protocol.processResponse(response);
     } while (!protocol.finishedReceiving());
-    User::showMessage(response.get());
+    User::showMessage(response.data());
 }
 
 void Client::_processConnection() {

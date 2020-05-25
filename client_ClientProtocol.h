@@ -5,7 +5,7 @@
  * protocolo correspondiente para ser enviado al Server*/
 
 #include <string>
-#include <memory>
+#include <vector>
 
 class ClientProtocol {
 private:
@@ -17,26 +17,26 @@ public:
                                                         responseLength(0) {}
 
     /*Recibe el comando del ususario y lo traduce acorde al protocolo*/
-    static std::unique_ptr<char[]> translateCommand(std::string&& command,
+    static std::vector<char> translateCommand(std::string&& command,
                                                     unsigned int& bufferSize);
 
     /*Retorna si termino de recibir la respuesta del servidor*/
     bool finishedReceiving() const;
 
     /*Retorna el buffer a llenar por el mensaje junto con su longitud*/
-    std::unique_ptr<char[]> responseBuffer(unsigned int& bufferLength);
+    std::vector<char> responseBuffer(unsigned int& bufferLength);
 
     /*Procesa la respuesta recibida por el servidor*/
-    void processResponse(std::unique_ptr<char[]>& response);
+    void processResponse(std::vector<char>& response);
 
     /*Retorna si se termino la comunicacion con el servidor, es decir, cuando
      * se termina el juego*/
     bool hasFinished() const;
 
 private:
-    static std::unique_ptr<char[]> _helpCommand(unsigned int& bufferSize);
-    static std::unique_ptr<char[]> _surrenderCommand(unsigned int& bufferSize);
-    static std::unique_ptr<char[]> _numberCommand(std::string&& command,
+    static std::vector<char> _helpCommand(unsigned int& bufferSize);
+    static std::vector<char> _surrenderCommand(unsigned int& bufferSize);
+    static std::vector<char> _numberCommand(std::string&& command,
                                                     unsigned int& bufferSize);
 };
 

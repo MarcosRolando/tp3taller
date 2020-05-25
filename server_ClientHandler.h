@@ -10,7 +10,7 @@
 #include "server_ServerProtocol.h"
 #include "common_Socket.h"
 #include "common_Thread.h"
-#include <memory>
+#include <vector>
 #include <utility>
 
 class ClientHandler : public Thread {
@@ -31,9 +31,9 @@ public:
     bool hasFinished();
 
 private:
-    void _receive(std::unique_ptr<char[]>& message,
+    void _receive(std::vector<char>& message,
                                             unsigned int& bufferLength);
-    void _send(std::unique_ptr<char[]>& message,
+    void _send(std::vector<char>& message,
                                             unsigned int& bufferLength);
 };
 

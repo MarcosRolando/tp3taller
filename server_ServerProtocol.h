@@ -5,7 +5,7 @@
  * el cliente, comunicandose con el Game*/
 
 #include "server_Game.h"
-#include <memory>
+#include <vector>
 #include <string>
 
 class ServerProtocol {
@@ -22,11 +22,11 @@ public:
     void processCommand(const char* clientCommand);
 
     /*Retorna el buffer para recibir el mensaje junto con su longitud*/
-    std::unique_ptr<char[]> commandBuffer(unsigned int& bufferLength);
+    std::vector<char> commandBuffer(unsigned int& bufferLength);
 
     /*Retorna el buffer con la respuesta al request del cliente y la
      * longitud del mismo*/
-    std::unique_ptr<char[]> getResponse(unsigned int& bufferSize);
+    std::vector<char> getResponse(unsigned int& bufferSize);
 
     /*Retorna si el protocolo recibio el mensaje del entero del cliente*/
     bool finishedReceiving() const;

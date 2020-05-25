@@ -20,7 +20,7 @@ private:
     std::string port;
     Socket socket;
     FileReader file;
-    std::vector<std::unique_ptr<ClientHandler>>clients;
+    std::vector<std::unique_ptr<ClientHandler>> clients;
 
 public:
     Server(std::string&& port, std::string&& fileName) : finished(false),

@@ -5,7 +5,7 @@
 void ClientHandler::run() {
     while (!finished) {
         try {
-            std::unique_ptr<char[]> message;
+            std::vector<char> message;
             unsigned int bufferLength;
             _receive(message, bufferLength);
             _send(message, bufferLength);
@@ -17,20 +17,19 @@ void ClientHandler::run() {
     }
 }
 
-void ClientHandler::_receive(std::unique_ptr<char[]>& message,
+void ClientHandler::_receive(std::vector<char>& message,
                                                 unsigned int& bufferLength) {
     do {
-        message.reset();
         message = protocol.commandBuffer(bufferLength);
-        socket.receive(message.get(), bufferLength);
-        protocol.processCommand(message.get());
+        socket.receive(message.data(), bufferLength);
+        protocol.processCommand(message.data());
     } while (!protocol.finishedReceiving());
 }
 
-void ClientHandler::_send(std::unique_ptr<char[]>& message,
+void ClientHandler::_send(std::vector<char>& message,
                                                 unsigned int& bufferLength) {
     message = protocol.getResponse(bufferLength);
-    socket.send(message.get(), bufferLength);
+    socket.send(message.data(), bufferLength);
 }
 
 bool ClientHandler::hasFinished() {

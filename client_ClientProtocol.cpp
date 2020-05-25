@@ -4,6 +4,7 @@
 #include "common_GameProtocolConstants.h"
 #include <string>
 #include <utility>
+#include <vector>
 
 #define HELP_COMMAND "AYUDA"
 #define SURRENDER_COMMAND "RENDIRSE"
@@ -13,25 +14,25 @@
 const unsigned int maxNumber = 65535; /*Maximo numero sin signo que */
                                      /*representable en 2 bytes*/
 
-std::unique_ptr<char[]> ClientProtocol::_helpCommand(unsigned int& bufferSize) {
+std::vector<char> ClientProtocol::_helpCommand(unsigned int& bufferSize) {
     bufferSize = 1;
-    std::unique_ptr<char[]> buffer(new char[bufferSize]());
+    std::vector<char> buffer(bufferSize);
     buffer[0] = HELP_CHAR;
     return buffer;
 }
 
-std::unique_ptr<char[]> ClientProtocol::_surrenderCommand(
+std::vector<char> ClientProtocol::_surrenderCommand(
                                                     unsigned int& bufferSize) {
     bufferSize = 1;
-    std::unique_ptr<char[]> buffer(new char[bufferSize]());
+    std::vector<char> buffer(bufferSize);
     buffer[0] = SURRENDER_CHAR;
     return buffer;
 }
 
-std::unique_ptr<char[]> ClientProtocol::_numberCommand(std::string&& command,
+std::vector<char> ClientProtocol::_numberCommand(std::string&& command,
                                                     unsigned int& bufferSize) {
     bufferSize = 3;
-    std::unique_ptr<char[]> buffer(new char[bufferSize]());
+    std::vector<char> buffer(bufferSize);
     buffer[0] = NUMBER_CHAR;
     unsigned int conversionNumber = std::stoi(command);
     if (conversionNumber > maxNumber)
@@ -44,7 +45,7 @@ std::unique_ptr<char[]> ClientProtocol::_numberCommand(std::string&& command,
     return buffer;
 }
 
-std::unique_ptr<char []> ClientProtocol::translateCommand(std::string&& command,
+std::vector<char> ClientProtocol::translateCommand(std::string&& command,
                                                     unsigned int& bufferSize) {
     if (command == HELP_COMMAND) {
         return _helpCommand(bufferSize);
@@ -63,15 +64,15 @@ bool ClientProtocol::finishedReceiving() const {
     return readResponse;
 }
 
-void ClientProtocol::processResponse(std::unique_ptr<char[]>& response) {
+void ClientProtocol::processResponse(std::vector<char>& response) {
     if (!readLength) {
-        responseLength = *reinterpret_cast<uint32_t*>(response.get());
+        responseLength = *reinterpret_cast<uint32_t*>(response.data());
         responseLength = ntohl(responseLength);
         ++responseLength; /*Reservo espacio para el \0*/
         readLength = true;
     } else {
         response[responseLength-1] = '\0';
-        std::string strResponse = response.get();
+        std::string strResponse = response.data();
         if (strResponse == LOST_MESSAGE || strResponse == WON_MESSAGE)
             finished = true;
         readLength = false;
@@ -79,16 +80,16 @@ void ClientProtocol::processResponse(std::unique_ptr<char[]>& response) {
     }
 }
 
-std::unique_ptr<char[]> ClientProtocol::responseBuffer(
+std::vector<char> ClientProtocol::responseBuffer(
                                                 unsigned int& bufferLength) {
     if (!readLength) {
         readResponse = false;
         bufferLength = 4;
-        std::unique_ptr<char[]> buffer(new char[bufferLength]());
+        std::vector<char> buffer(bufferLength);
         return buffer;
     }  else {
         bufferLength = responseLength - 1; /*No hay \0 en el mensaje a leer*/
-        std::unique_ptr<char[]> buffer(new char[responseLength]());
+        std::vector<char> buffer(responseLength);
         return buffer;
     }
 }

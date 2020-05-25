@@ -60,16 +60,16 @@ void ServerProtocol::_numberCommand(const char* clientCommand) {
     }
 }
 
-std::unique_ptr<char[]> ServerProtocol::commandBuffer(
+std::vector<char> ServerProtocol::commandBuffer(
                                                 unsigned int& bufferLength) {
     readCommand = false;
     if (!receivingNumber) {
         bufferLength = 1;
-        std::unique_ptr<char[]> buffer(new char[bufferLength]());
+        std::vector<char> buffer(bufferLength);
         return buffer;
     } else {
         bufferLength = 2;
-        std::unique_ptr<char[]> buffer(new char[bufferLength]());
+        std::vector<char> buffer(bufferLength);
         return buffer;
     }
 }
@@ -91,11 +91,11 @@ void ServerProtocol::processCommand(const char* clientCommand) {
     }
 }
 
-std::unique_ptr<char []> ServerProtocol::getResponse(unsigned int& bufferSize) {
+std::vector<char> ServerProtocol::getResponse(unsigned int& bufferSize) {
     uint32_t msgLength = response.length();
     bufferSize = msgLength + 4;
-    std::unique_ptr<char[]> responseMsg(new char[bufferSize]());
-    memset(responseMsg.get(), 0, bufferSize);
+    std::vector<char> responseMsg(bufferSize);
+    memset(responseMsg.data(), 0, bufferSize);
     msgLength = htonl(msgLength);
     for (int i = 0; i < 4; ++i) {
         responseMsg[i] = *(reinterpret_cast<char*>(&msgLength) + i);
