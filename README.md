@@ -15,7 +15,7 @@ encarar soluciones a problemas mas pequenios (_Divide and Conquer_).
 
 A grandes rasgos, la ejecucion del Server Side comienza levantando
 un servidor en el puerto especificado por el usuario, donde dicho
-servidor se encargara de aceptar las connection requests que le 
+servidor se encargara de aceptar las _connection requests_ que le 
 lleguen de potenciales clientes (esto es, usuarios que quieran 
 conectarse a nuestro juego). Una vez aceptada la peticion de conexion
 del cliente, esta se delegara a una clase ClientHandler la cual
