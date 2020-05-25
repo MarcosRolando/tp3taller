@@ -71,3 +71,7 @@ a un nuevo _thread-process_ mediante el **operator()**.
 Habiendo explicado en lineas generales el desarrollo del trabajo practico
 para dar una idea conceptual del mismo y comprender su estructura, se 
 presentan un par de diagramas de secuencia del programa.
+
+![Diagrama de secuencia de conxeion del Server](/images/server_sequence_diagram.jpeg)
+
+             Diagrama de secuencia de conexion del Server
