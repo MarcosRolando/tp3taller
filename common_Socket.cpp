@@ -2,15 +2,35 @@
 #include <netdb.h>
 #include <unistd.h>
 #include "common_OSException.h"
+#include <cstring>
 
 #define CONNECT_ERROR_MSG "Could not connect. "
 #define BIND_ERROR_MSG "Could not bind. "
 #define ACCEPT_ERROR_MSG "Error in accept: "
 #define SEND_ERROR_MSG "Error in send: "
 #define RECV_ERROR_MSG "Error in recv: "
+#define GETADDRINFO_ERROR_MSG "Error in getaddrinfo: %s"
 
-void Socket::connect(struct addrinfo* addresses) {
-struct addrinfo* rp;
+struct addrinfo* Socket::_getAddresses(std::string* host, std::string* port) {
+    struct addrinfo hints{}, *result;
+    int s; /*Para verificar errores*/
+    memset(&hints, 0, sizeof(struct addrinfo));
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    if (host) {
+        hints.ai_flags = 0; /*cliente*/
+        s = getaddrinfo(host->c_str(), port->c_str(), &hints, &result);
+    } else {
+        hints.ai_flags = AI_PASSIVE; /*server*/
+        s = getaddrinfo(nullptr, port->c_str(), &hints, &result);
+    }
+    if (s != 0) throw OSException(GETADDRINFO_ERROR_MSG, gai_strerror(s));
+    return result;
+}
+
+void Socket::connect(std::string& host, std::string& port) {
+    struct addrinfo* addresses = _getAddresses(&host, &port);
+    struct addrinfo* rp;
     for (rp = addresses; rp != nullptr; rp = rp->ai_next) {
         fd = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
         if (fd  == -1)
@@ -21,10 +41,14 @@ struct addrinfo* rp;
 
         ::close(fd);
     }
-    if (rp == nullptr) throw OSException(CONNECT_ERROR_MSG);
+    freeaddrinfo(addresses);
+    if (rp == nullptr) {
+        throw OSException(CONNECT_ERROR_MSG);
+    }
 }
 
-void Socket::bind(struct addrinfo* addresses) {
+void Socket::bind(std::string& port) {
+    struct addrinfo* addresses = _getAddresses(nullptr, &port);
     struct addrinfo* rp;
     int val = 1;
     for (rp = addresses; rp != nullptr; rp = rp->ai_next) {
@@ -39,7 +63,10 @@ void Socket::bind(struct addrinfo* addresses) {
 
         ::close(fd);
     }
-    if (rp == nullptr) throw OSException(BIND_ERROR_MSG);
+    freeaddrinfo(addresses);
+    if (rp == nullptr) {
+        throw OSException(BIND_ERROR_MSG);
+    }
 }
 
 Socket Socket::accept() const {
@@ -97,4 +124,8 @@ void Socket::close() {
         ::close(fd);
         fd = -1;
     }
+}
+
+Socket::Socket() {
+    fd = -1;
 }

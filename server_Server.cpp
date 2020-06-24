@@ -7,22 +7,7 @@
 #include "server_ServerMonitor.h"
 #include "common_OSException.h"
 
-#define GETADDRINFO_ERROR_MSG "Error in getaddrinfo: %s"
-
 const int MAX_LISTENERS = 10;
-
-struct addrinfo* Server::_getAddresses() const {
-    struct addrinfo hints{}, *result;
-    int s; /*variable para verificar si hubo errores*/
-    memset(&hints, 0, sizeof(struct addrinfo));
-    hints.ai_family = AF_INET;
-    hints.ai_socktype = SOCK_STREAM;
-    hints.ai_flags = AI_PASSIVE;
-    hints.ai_protocol = 0;
-    s = getaddrinfo(nullptr, port.c_str(), &hints, &result);
-    if (s != 0) throw OSException(GETADDRINFO_ERROR_MSG, gai_strerror(s));
-    return result;
-}
 
 /*Funcion que le paso a remove_if para que verifique si termino el cliente*/
 bool clientHasFinished(std::unique_ptr<ClientHandler>& client) {
@@ -66,14 +51,7 @@ void Server::forceFinish() {
 }
 
 void Server::connect() {
-    struct addrinfo* addresses = _getAddresses();
-    try {
-        socket.bind(addresses);
-    } catch(OSException& e) {
-        freeaddrinfo(addresses);
-        throw e;
-    }
-    freeaddrinfo(addresses);
+    socket.bind(port);
     socket.maxListen(MAX_LISTENERS);
     _processConnections();
 }

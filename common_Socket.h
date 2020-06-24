@@ -2,26 +2,27 @@
 #define TP3TALLER_COMMON_SOCKET_H
 
 #include <cstdio>
+#include <string>
 
 class Socket {
 private:
     int fd; /*File Descriptor*/
 
 public:
-    Socket() : fd(-1) {}
+    Socket();
     Socket(const Socket&) = delete; /*Borro los constructores por copia*/
     Socket operator=(const Socket&) = delete;
     Socket& operator=(Socket&&) noexcept;
     Socket(Socket&& srcSocket) noexcept;
 
     /*Conecta el cliente al servidor*/
-    void connect(struct addrinfo* addresses);
+    void connect(std::string& host, std::string& port);
 
     /*Acepta una nueva conexion, retornando el socket generado*/
     Socket accept() const;
 
     /*Bindea a un socket*/
-    void bind(struct addrinfo* addresses);
+    void bind(std::string& port);
 
     /*Setea la cantidad maxima de clientes que se tendran en espera*/
     void maxListen(int max) const;
@@ -34,10 +35,12 @@ public:
 
     /*Cierra el socket*/
     void close();
+
     ~Socket();
 
 private:
     explicit Socket(int fd) : fd(fd) {}
+    static struct addrinfo* _getAddresses(std::string* host, std::string* port);
 };
 
 

@@ -8,19 +8,6 @@
 #include <vector>
 #include <utility>
 
-#define GETADDRINFO_ERROR_MSG "Error in getaddrinfo: %s"
-
-struct addrinfo* Client::_getAddresses() const {
-    struct addrinfo hints{}, *result;
-    int s; /*Para verificar errores*/
-    memset(&hints, 0, sizeof(struct addrinfo));
-    hints.ai_family = AF_INET;
-    hints.ai_socktype = SOCK_STREAM;
-    hints.ai_flags = 0;
-    s = getaddrinfo(host.c_str(), port.c_str(), &hints, &result);
-    if (s != 0) throw OSException(GETADDRINFO_ERROR_MSG, gai_strerror(s));
-    return result;
-}
 
 void Client::_send() const {
     std::string command = User::getInput();
@@ -54,13 +41,6 @@ void Client::_processConnection() {
 }
 
 void Client::connect() {
-    struct addrinfo* addresses = _getAddresses();
-    try {
-        socket.connect(addresses);
-    } catch(OSException& e) {
-        freeaddrinfo(addresses);
-        throw e;
-    }
-    freeaddrinfo(addresses);
+    socket.connect(host, port);
     _processConnection();
 }

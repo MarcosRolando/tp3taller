@@ -27,7 +27,6 @@ public:
 private:
     void _send() const;
     void _receive();
-    struct addrinfo* _getAddresses() const;
     void _processConnection();
 };
 
